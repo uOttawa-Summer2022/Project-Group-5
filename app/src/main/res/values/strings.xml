@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Course_Booking</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="login">Log In</string>
+    <string name="signUp">Click Here to Sign Up</string>
+    <string name="firstNameForm">First Name</string>
+    <string name="lastNameForm">Last Name</string>
+    <string name="usernameForm">Enter Username</string>
+    <string name="passwordForm">Enter Password</string>
+    <string name="signUpBtn">Sign Up</string>'
+    <string name="returnLogin">Click Here to return to Login Screen</string>
+</resources>
