@@ -1,6 +1,7 @@
 package com.example.course_booking;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -16,12 +17,21 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.sql.DatabaseMetaData;
 
 public class SignupActivity extends AppCompatActivity {
-    Activity context = this;
+
+    //create object of DatabaseReference class to access firebase's Realtime Database
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://console.firebase.google.com/project/myproject-8ced6/database/myproject-8ced6-default-rtdb/data/~2F");
     EditText username,password;
-    Button btnSignUp;
-    TextView tv;
+    Button btnSignUp,btnNowLogin;
+
 
 
     @Override
@@ -32,29 +42,55 @@ public class SignupActivity extends AppCompatActivity {
         username = findViewById(R.id.usernameForm);
         password = findViewById(R.id.passwordForm);
         btnSignUp = findViewById(R.id.btnSignup);
-        tv = findViewById(R.id.textView);
+        btnNowLogin = findViewById(R.id.now_login);
+
         
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signup();
+
+                //get data from EditTexts into String variables
+                String nameTxt = username.getText().toString();
+                String passwordTxt = password.getText().toString();
+
+                //check if user fill all the fields before sending data to firebase
+                if(nameTxt.isEmpty() || passwordTxt.isEmpty()){
+                    Toast.makeText(SignupActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                }
+                else{
+
+                    databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            //sending data to firebase Realtime Database
+                            databaseReference.child("users").child("username").setValue("nameTxt");
+                            databaseReference.child("users").child("password").setValue("passwordTxt");
+
+                            //show a successful msg
+                            Toast.makeText(SignupActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
+
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+                }
+
+            }
+        });
+
+        btnNowLogin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SignupActivity.this, MainActivity.class));
             }
         });
         
     }
 
-    private void signup() {
-        FirebaseAuth.getInstance().createUserWithEmailAndPassword(username.getText().toString(),password.getText().toString()).addOnCompleteListener(context,new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if (task.isSuccessful()) {
-                    FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                    tv.setText("Result: "+user.getEmail()+"Registration success and you can login in");
 
-                } else {
-                    tv.setText("Result: Registration failed"+task.getException());
-                }
-            }
-        });
-    }
 }

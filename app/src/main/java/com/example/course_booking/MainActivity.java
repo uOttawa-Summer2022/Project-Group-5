@@ -3,27 +3,27 @@ package com.example.course_booking;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
-    Activity context;
+
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://console.firebase.google.com/project/myproject-8ced6/database/myproject-8ced6-default-rtdb/data/~2F");
+
     EditText username,password;
-    private Button login;
-    private TextView signup;
-    String email;
-    TextView tv2;
+    Button login,signup_first;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,41 +31,53 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         login = (Button) findViewById(R.id.btnLogin);
-        signup = (TextView) findViewById(R.id.signUp);
+        signup_first = (Button) findViewById(R.id.signupFirst);
+
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
-        tv2 = findViewById(R.id.textView2);
+
 
 
         //When Login button is pressed
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signInWithEmailAndPassword(username.getText().toString(),password.getText().toString()).addOnCompleteListener(context, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if(task.isSuccessful()){
-                            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                            tv2.setText("Result: Login successful");
-                            email = user.getEmail();
 
-                        }else{
-                            tv2.setText("Result : login failed"+task.getException());
+                String nameTxt = username.getText().toString();
+                String passwordTxt = password.getText().toString();
+
+
+                if(nameTxt.isEmpty() || passwordTxt.isEmpty()){
+                    Toast.makeText(MainActivity.this, "Please enter your name or password", Toast.LENGTH_SHORT).show();
+                }else{
+                    databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            String getPassword = snapshot.child(nameTxt).child("password").getValue(String.class);
+                            if (getPassword.equals(passwordTxt)){
+                                Toast.makeText(MainActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
+                                //Just do the jump to the admin interface, it should be changed.
+                                startActivity(new Intent(MainActivity.this, AdminActivity.class));
+                            }else{
+                                Toast.makeText(MainActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                });
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
             }
         });
 
         //When Signup Button is pressed
-        signup.setOnClickListener(new View.OnClickListener() {
+        signup_first.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent();
-                intent.setClass(MainActivity.this,SignupActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
-                intent.putExtra("email",email);
-                startActivity(intent);
+
+                startActivity(new Intent(MainActivity.this, SignupActivity.class));
             }
         });
     }
