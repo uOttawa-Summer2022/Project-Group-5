@@ -30,7 +30,8 @@ public class SignupActivity extends AppCompatActivity {
     //create object of DatabaseReference class to access firebase's Realtime Database
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://console.firebase.google.com/project/myproject-8ced6/database/myproject-8ced6-default-rtdb/data/~2F");
     EditText username,password;
-    Button btnSignUp,btnNowLogin;
+    Button btnSignUp;
+    TextView returnLogin;
 
 
 
@@ -42,7 +43,7 @@ public class SignupActivity extends AppCompatActivity {
         username = findViewById(R.id.usernameForm);
         password = findViewById(R.id.passwordForm);
         btnSignUp = findViewById(R.id.btnSignup);
-        btnNowLogin = findViewById(R.id.now_login);
+        returnLogin = findViewById(R.id.returnLogin);
 
         
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -83,7 +84,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        btnNowLogin.setOnClickListener(new View.OnClickListener() {
+        returnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(SignupActivity.this, MainActivity.class));

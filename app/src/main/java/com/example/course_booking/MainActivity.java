@@ -22,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
     DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://console.firebase.google.com/project/myproject-8ced6/database/myproject-8ced6-default-rtdb/data/~2F");
 
     EditText username,password;
-    Button login,signup_first;
+    Button login;
+    TextView signup;
 
 
     @Override
@@ -31,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         login = (Button) findViewById(R.id.btnLogin);
-        signup_first = (Button) findViewById(R.id.signupFirst);
+        signup = findViewById(R.id.signUp);
 
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //When Signup Button is pressed
-        signup_first.setOnClickListener(new View.OnClickListener() {
+        signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
