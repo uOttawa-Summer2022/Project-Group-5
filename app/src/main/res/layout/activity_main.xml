@@ -43,6 +43,13 @@
             android:gravity="center"
             android:text="@string/signUp"
             android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Show whether the login is successful"
+            android:textColor="#673AB7" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
