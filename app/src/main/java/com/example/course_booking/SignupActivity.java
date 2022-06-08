@@ -28,7 +28,7 @@ import java.sql.DatabaseMetaData;
 public class SignupActivity extends AppCompatActivity {
 
     //create object of DatabaseReference class to access firebase's Realtime Database
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://console.firebase.google.com/project/myproject-8ced6/database/myproject-8ced6-default-rtdb/data/~2F");
+    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://myproject-8ced6-default-rtdb.firebaseio.com/");
     EditText username,password;
     Button btnSignUp;
     TextView returnLogin;
