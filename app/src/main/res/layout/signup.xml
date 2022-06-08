@@ -10,24 +10,6 @@
         android:orientation="vertical">
 
         <EditText
-            android:id="@+id/firstNameForm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/firstNameForm"
-            android:inputType="textPersonName"
-            android:minHeight="48dp" />
-
-        <EditText
-            android:id="@+id/lastNameForm"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="@string/lastNameForm"
-            android:inputType="textPersonName"
-            android:minHeight="48dp" />
-
-        <EditText
             android:id="@+id/usernameForm"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -47,7 +29,7 @@
 
         <Button
             android:id="@+id/btnSignup"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/signUpBtn" />
 

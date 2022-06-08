@@ -4,8 +4,6 @@
     <string name="password">Password</string>
     <string name="login">Log In</string>
     <string name="signUp">Click Here to Sign Up</string>
-    <string name="firstNameForm">First Name</string>
-    <string name="lastNameForm">Last Name</string>
     <string name="usernameForm">Enter Username</string>
     <string name="passwordForm">Enter Password</string>
     <string name="signUpBtn">Sign Up</string>'
