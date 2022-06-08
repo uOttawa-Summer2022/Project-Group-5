@@ -8,4 +8,7 @@
     <string name="passwordForm">Enter Password</string>
     <string name="signUpBtn">Sign Up</string>'
     <string name="returnLogin">Click Here to return to Login Screen</string>
+    <string name="txtAccType">Select Account Type</string>
+    <string name="student">Student</string>
+    <string name="instructor">Instructor</string>
 </resources>

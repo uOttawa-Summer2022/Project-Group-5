@@ -29,10 +29,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        //When Signup Button is pressed
+        //When Signup TextView is pressed
         signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Still trying to figure out how to switch pages
                 //Intent intent = new Intent(this, SignupActivity);
                 //startActivity(intent);
             }
