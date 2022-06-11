@@ -11,4 +11,8 @@
     <string name="txtAccType">Select Account Type</string>
     <string name="student">Student</string>
     <string name="instructor">Instructor</string>
+    <string name="create">CREATE</string>
+    <string name="edit">EDIT</string>
+    <string name="deleteCourse">DELETE</string>
+    <string name="deleteAccount">DELETE</string>
 </resources>
