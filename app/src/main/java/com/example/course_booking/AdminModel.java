@@ -20,4 +20,5 @@ public class AdminModel extends UserModel{
     public void deleteAccount(String acc, Type accType){
 
     }
+
 }

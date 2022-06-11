@@ -28,4 +28,12 @@ public class CourseModel {
     public void setCrsCode(String crsCode) {
         this.crsCode = crsCode;
     }
+
+    @Override
+    public String toString() {
+        return "CourseModel{" +
+                "crsName='" + crsName + '\'' +
+                ", crsCode='" + crsCode + '\'' +
+                '}';
+    }
 }

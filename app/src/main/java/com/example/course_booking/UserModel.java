@@ -39,5 +39,12 @@ public abstract class UserModel {
         this.accType = accType;
     }
 
-
+    @Override
+    public String toString() {
+        return "UserModel{" +
+                "name='" + name + '\'' +
+                ", password='" + password + '\'' +
+                ", accType=" + accType +
+                '}';
+    }
 }
