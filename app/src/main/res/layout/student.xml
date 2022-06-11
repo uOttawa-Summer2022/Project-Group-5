@@ -12,8 +12,8 @@
         <TextView
             android:id="@+id/welcomeStudent"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="TextView" />
+            android:layout_height="367dp"
+            android:text="Welcome ‘firstname/username’! You are logged in as student." />
 
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
