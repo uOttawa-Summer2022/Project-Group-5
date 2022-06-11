@@ -19,10 +19,10 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://myproject-8ced6-default-rtdb.firebaseio.com/");
 
+    DBHelper db;
     EditText username,password;
-    Button login;
+    Button login,signUpFirst;
     TextView signup;
 
 
@@ -31,11 +31,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        login = (Button) findViewById(R.id.btnLogin);
+        login = findViewById(R.id.btnLogin);
         signup = findViewById(R.id.signUp);
-
+        db = new DBHelper(this);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
+        signUpFirst = findViewById(R.id.signUpFirst);
 
 
 
@@ -51,40 +52,32 @@ public class MainActivity extends AppCompatActivity {
                 if(nameTxt.isEmpty() || passwordTxt.isEmpty()){
                     Toast.makeText(MainActivity.this, "Please enter your name or password", Toast.LENGTH_SHORT).show();
                 }else{
-                    databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            String getPassword = snapshot.child(nameTxt).child("password").getValue(String.class);
-                            if (getPassword.equals(passwordTxt)){
-                                Toast.makeText(MainActivity.this, "Successfully logged in", Toast.LENGTH_SHORT).show();
-                                //Just do the jump to the admin interface, it should be changed.
-                                startActivity(new Intent(MainActivity.this, AdminActivity.class));
-                            }else{
-                                Toast.makeText(MainActivity.this, "Wrong Password", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
+                    boolean checkuserpass = db.checkpassword(nameTxt,passwordTxt);
+                    if (checkuserpass){
+                        Toast.makeText(MainActivity.this,"Log in successfully",Toast.LENGTH_SHORT).show();
+                        //Go to the corresponding home page according to the account type
+                        //startActivity(new Intent(getApplicationContext(),AdminActivity.class));
+                        //startActivity(new Intent(getApplicationContext(),StudentActivity.class));
+                        //startActivity(new Intent(getApplicationContext(),AdminActivity.class));
+                    }else{
+                        Toast.makeText(MainActivity.this,"invalid password", Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
 
         //When Signup TextView is pressed
-        signup.setOnClickListener(new View.OnClickListener() {
+        signUpFirst.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-<<<<<<< HEAD
+
                 //Still trying to figure out how to switch pages
                 //Intent intent = new Intent(this, SignupActivity);
                 //startActivity(intent);
-=======
 
-                startActivity(new Intent(MainActivity.this, SignupActivity.class));
->>>>>>> cddd710fc2c25293a95d6c9c0c177a512b376f9b
+
+                startActivity(new Intent(getApplicationContext(), SignupActivity.class));
+
             }
         });
     }

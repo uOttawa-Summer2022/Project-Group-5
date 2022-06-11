@@ -27,11 +27,11 @@ import java.sql.DatabaseMetaData;
 
 public class SignupActivity extends AppCompatActivity {
 
-    //create object of DatabaseReference class to access firebase's Realtime Database
-    DatabaseReference databaseReference = FirebaseDatabase.getInstance().getReferenceFromUrl("https://myproject-8ced6-default-rtdb.firebaseio.com/");
     EditText username,password;
-    Button btnSignUp;
+    Button btnSignUp,returnLog;
     TextView returnLogin;
+    DBHelper db;
+
 
 
 
@@ -44,6 +44,9 @@ public class SignupActivity extends AppCompatActivity {
         password = findViewById(R.id.passwordForm);
         btnSignUp = findViewById(R.id.btnSignup);
         returnLogin = findViewById(R.id.returnLogin);
+        returnLog = findViewById(R.id.returnLog);
+        db = new DBHelper(this);
+
 
         
         btnSignUp.setOnClickListener(new View.OnClickListener() {
@@ -60,23 +63,20 @@ public class SignupActivity extends AppCompatActivity {
                 }
                 else{
 
-                    databaseReference.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            //sending data to firebase Realtime Database
-                            databaseReference.child("users").child("username").setValue("nameTxt");
-                            databaseReference.child("users").child("password").setValue("passwordTxt");
+                    boolean checkuser = db.checkusername(nameTxt);
+                    if(!checkuser){
+                        boolean insert = db.insertData(nameTxt,passwordTxt);
+                        if(insert){
+                            Toast.makeText(SignupActivity.this,"Registered successfully",Toast.LENGTH_SHORT).show();
 
-                            //show a successful msg
-                            Toast.makeText(SignupActivity.this, "Sign up successful", Toast.LENGTH_SHORT).show();
-
+                        }else{
+                            Toast.makeText(SignupActivity.this,"Registered failed",Toast.LENGTH_SHORT).show();
                         }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
+                    }else{
+                        Toast.makeText(SignupActivity.this, "User already exists! Please sign in",Toast.LENGTH_SHORT).show();
+                    }
 
-                        }
-                    });
 
 
                 }
@@ -84,10 +84,10 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        returnLogin.setOnClickListener(new View.OnClickListener() {
+        returnLog.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SignupActivity.this, MainActivity.class));
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
             }
         });
         

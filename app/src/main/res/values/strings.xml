@@ -15,4 +15,6 @@
     <string name="edit">EDIT</string>
     <string name="deleteCourse">DELETE</string>
     <string name="deleteAccount">DELETE</string>
+    <string name="returnLog">Login</string>
+    <string name="signUpFirst">Sign Up</string>
 </resources>
