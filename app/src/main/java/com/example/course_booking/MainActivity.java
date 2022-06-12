@@ -11,11 +11,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -39,7 +34,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
         //When Login button is pressed
         login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -55,9 +49,8 @@ public class MainActivity extends AppCompatActivity {
                     boolean checkuserpass = db.checkpassword(nameTxt,passwordTxt);
                     if (checkuserpass){
                         Toast.makeText(MainActivity.this,"Log in successfully",Toast.LENGTH_SHORT).show();
-                        //Go to the corresponding home page according to the account type
-                        //startActivity(new Intent(getApplicationContext(),AdminActivity.class));
-                        //startActivity(new Intent(getApplicationContext(),StudentActivity.class));
+                        //startActivity(new Intent(getApplicationContext(),InstructorActivity.class));
+                        //startActivity(new Intent(getApplicationContext(), StudentActivity.class));
                         //startActivity(new Intent(getApplicationContext(),AdminActivity.class));
                     }else{
                         Toast.makeText(MainActivity.this,"invalid password", Toast.LENGTH_SHORT).show();
