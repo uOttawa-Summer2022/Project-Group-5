@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
     DBHelper db;
     EditText username,password;
-    Button login,signUpFirst;
+    Button login;
     TextView signup;
 
 
@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
         db = new DBHelper(this);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
-        signUpFirst = findViewById(R.id.signUpFirst);
+
 
 
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         //When Signup TextView is pressed
-        signUpFirst.setOnClickListener(new View.OnClickListener() {
+        signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 

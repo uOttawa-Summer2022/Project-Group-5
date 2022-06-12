@@ -28,7 +28,7 @@ import java.sql.DatabaseMetaData;
 public class SignupActivity extends AppCompatActivity {
 
     EditText username,password;
-    Button btnSignUp,returnLog;
+    Button btnSignUp;
     TextView returnLogin;
     DBHelper db;
 
@@ -44,7 +44,7 @@ public class SignupActivity extends AppCompatActivity {
         password = findViewById(R.id.passwordForm);
         btnSignUp = findViewById(R.id.btnSignup);
         returnLogin = findViewById(R.id.returnLogin);
-        returnLog = findViewById(R.id.returnLog);
+
         db = new DBHelper(this);
 
 
@@ -84,7 +84,7 @@ public class SignupActivity extends AppCompatActivity {
             }
         });
 
-        returnLog.setOnClickListener(new View.OnClickListener() {
+        returnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
