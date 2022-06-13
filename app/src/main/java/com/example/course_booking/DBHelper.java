@@ -53,6 +53,30 @@ public class DBHelper extends SQLiteOpenHelper {
         }
     }
 
+    public UserModel findUser(String name){
+        UserModel target = new UserModel();
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select * from users where name = ?",new String[]{name});
+        if(cursor.getCount()>0){
+            cursor.moveToFirst();
+            target.setName(name);
+            target.setPassword(cursor.getString(1));
+            String accTypeSTR = cursor.getString(2);
+            Type accType = null;
+            if (accTypeSTR.equals("STUDENT")){
+                accType = Type.STUDENT;
+            } else if (accTypeSTR.equals("INSTRUCTOR")){
+                accType = Type.INSTRUCTOR;
+            } else {
+                accType = Type.ADMIN;
+            }
+            target.setAccType(accType);
+            return target;
+
+        }
+        return null;
+    }
+
     public boolean checkpassword(String name, String password){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from users where name = ? and password = ?",new String[]{name,password});

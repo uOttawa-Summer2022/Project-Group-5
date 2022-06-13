@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -19,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     EditText username,password;
     Button login;
     TextView signup;
+    static UserModel currentUser = new UserModel();
 
 
     @Override
@@ -49,9 +52,17 @@ public class MainActivity extends AppCompatActivity {
                     boolean checkuserpass = db.checkpassword(nameTxt,passwordTxt);
                     if (checkuserpass){
                         Toast.makeText(MainActivity.this,"Log in successfully",Toast.LENGTH_SHORT).show();
-                        //startActivity(new Intent(getApplicationContext(),InstructorActivity.class));
-                        //startActivity(new Intent(getApplicationContext(), StudentActivity.class));
-                        //startActivity(new Intent(getApplicationContext(),AdminActivity.class));
+                        currentUser = db.findUser(nameTxt);
+                        Log.d("type", String.valueOf(currentUser));
+                        switch (currentUser.getAccType()){
+                            case STUDENT:
+                                startActivity(new Intent(getApplicationContext(), StudentActivity.class));
+                            case INSTRUCTOR:
+                                startActivity(new Intent(getApplicationContext(), InstructorActivity.class));
+                            case ADMIN:
+                                startActivity(new Intent(getApplicationContext(),AdminActivity.class));
+                        }
+
                     }else{
                         Toast.makeText(MainActivity.this,"invalid password", Toast.LENGTH_SHORT).show();
                     }

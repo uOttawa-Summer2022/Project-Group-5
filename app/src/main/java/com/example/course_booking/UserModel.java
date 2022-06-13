@@ -1,6 +1,6 @@
 package com.example.course_booking;
 
-public abstract class UserModel {
+public class UserModel {
 
     private String name;
     private String password;
@@ -11,6 +11,8 @@ public abstract class UserModel {
         this.name = name;
         this.password = password;
         this.accType = accType;
+    }
+    public UserModel() {
     }
 
 

@@ -42,6 +42,7 @@ public class SignupActivity extends AppCompatActivity {
         // find the radio button by returned id
 
         db = new DBHelper(this);
+        //db.insertData("Max","secret",Type.ADMIN);       <- default admin account
 
 
 
