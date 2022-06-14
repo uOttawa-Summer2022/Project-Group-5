@@ -73,8 +73,8 @@ public class AdminActivity extends AppCompatActivity{
                 if(nameTxt.isEmpty()){
                     Toast.makeText(AdminActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 }else{
-                    boolean checkUser = db.checkusername(nameTxt);
-                    UserModel target = db.findUser(nameTxt);
+                    boolean checkUser = db_account.checkusername(nameTxt);
+                    UserModel target = db_account.findUser(nameTxt);
                     boolean delete = false;
 
                     if(checkUser){
@@ -82,9 +82,9 @@ public class AdminActivity extends AppCompatActivity{
                             case ADMIN:
                                 Toast.makeText(AdminActivity.this,"Cannot delete Admin account",Toast.LENGTH_SHORT).show();
                             case INSTRUCTOR:
-                                delete = db.deleteData(nameTxt);
+                                delete = db_account.deleteData(nameTxt);
                             case STUDENT:
-                                delete = db.deleteData(nameTxt);
+                                delete = db_account.deleteData(nameTxt);
                         }
                         if(delete){
                             Toast.makeText(AdminActivity.this,"Deleteion success",Toast.LENGTH_SHORT).show();
