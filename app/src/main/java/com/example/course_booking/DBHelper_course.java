@@ -2,6 +2,7 @@ package com.example.course_booking;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -15,7 +16,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
         super(context, "Course.db",null,1);
     }
     @Override
-    public void onCreate(SQLiteDatabase db) {db.execSQL("create Table TABLE_NAME(COLUMN_CODE TEXT primary key, COLUMN_NAME TEXT, COLUMN_NAME TEXT)");
+    public void onCreate(SQLiteDatabase db) {db.execSQL("create Table TABLE_NAME(COLUMN_CODE TEXT primary key, COLUMN_NAME TEXT)");
     }
 
     @Override
@@ -32,9 +33,27 @@ public class DBHelper_course extends SQLiteOpenHelper {
         db.close();
     }
 
-    public void deleteCourse(String code){
+    public boolean deleteCourse(String code){
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete("courses",code,null);
+        boolean result = false;
+
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_CODE + " = \""
+                + code + "\"";
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.getCount() == 0) {
+            db.close();
+            cursor.close();
+            return false;
+        }
+        if(cursor.moveToFirst()){
+            String idStr = cursor.getString(0);
+            db.delete(TABLE_NAME, "name=?", new String[]{idStr});
+            cursor.close();
+            result = true;
+        }
+        db.close();
+        return result;
     }
 
     public void editCourse(String codeOld,String nameOld,String codeNew,String nameNew){
