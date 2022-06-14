@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class AdminActivity extends AppCompatActivity{
     TextView welcomeAdmin;
@@ -61,6 +62,40 @@ public class AdminActivity extends AppCompatActivity{
         deleteAccount.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                String nameTxt = accName.getText().toString();
+
+                //check if user fill all the fields before sending data to firebase
+                if(nameTxt.isEmpty()){
+                    Toast.makeText(AdminActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                }else{
+                    boolean checkUser = db.checkusername(nameTxt);
+                    UserModel target = db.findUser(nameTxt);
+                    boolean delete = false;
+
+                    if(checkUser){
+                        switch(target.getAccType()){
+                            case ADMIN:
+                                Toast.makeText(AdminActivity.this,"Cannot delete Admin account",Toast.LENGTH_SHORT).show();
+                            case INSTRUCTOR:
+                                delete = db.deleteData(nameTxt);
+                            case STUDENT:
+                                delete = db.deleteData(nameTxt);
+                        }
+                        if(delete){
+                            Toast.makeText(AdminActivity.this,"Deleteion success",Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            Toast.makeText(AdminActivity.this,"Deletion fail",Toast.LENGTH_SHORT).show();
+                        }
+
+                    }else{
+                        Toast.makeText(AdminActivity.this, "User does not exist!",Toast.LENGTH_SHORT).show();
+                    }
+
+
+
+                }
 
             }
         });

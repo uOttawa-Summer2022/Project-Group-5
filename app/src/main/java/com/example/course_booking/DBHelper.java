@@ -39,6 +39,29 @@ public class DBHelper extends SQLiteOpenHelper {
         return result != -1;
     }
 
+    public boolean deleteData(String username){
+        boolean result = false;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_USERNAME + " = \""
+                + username + "\"";
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.getCount() == 0) {
+            db.close();
+            cursor.close();
+            return false;
+        }
+        if(cursor.moveToFirst()){
+            String idStr = cursor.getString(0);
+            db.delete(TABLE_NAME, "name=?", new String[]{idStr});
+            cursor.close();
+            result = true;
+        }
+        db.close();
+
+        return result;
+    }
+
     public boolean checkusername(String name){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from users where name = ?",new String[]{name});
