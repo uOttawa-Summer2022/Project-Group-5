@@ -43,8 +43,12 @@ public class AdminActivity extends AppCompatActivity{
             public void onClick(View v) {
                 String code = crsCode.getText().toString();
                 String name = crsName.getText().toString();
-                CourseModel course = new CourseModel(code,name);
-                db_course.insertCourse(course);
+                if(code.isEmpty() || name.isEmpty()) {
+                    Toast.makeText(AdminActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                } else {
+                    CourseModel course = new CourseModel(code, name);
+                    db_course.insertCourse(course);
+                }
             }
         });
 
@@ -58,7 +62,12 @@ public class AdminActivity extends AppCompatActivity{
         deleteCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String code = crsCode.getText().toString();
+                if(code.isEmpty()) {
+                    Toast.makeText(AdminActivity.this, "Please fill specify the code of the course you want to delete.", Toast.LENGTH_SHORT).show();
+                } else {
+                    db_course.deleteCourse(code);
+                }
             }
         });
 
