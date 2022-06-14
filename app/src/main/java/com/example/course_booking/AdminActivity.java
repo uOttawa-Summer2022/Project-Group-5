@@ -11,10 +11,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AdminActivity extends AppCompatActivity{
-    TextView welcomeAdmin;
+    TextView welcomeAdmin,toEditCourse;
     DBHelper db_account;
     DBHelper_course db_course;
-    Button createCourse,editCourse,deleteCourse,deleteAccount;
+    Button createCourse,deleteCourse,deleteAccount;
     EditText crsCode,crsName,accName;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,12 +30,12 @@ public class AdminActivity extends AppCompatActivity{
         welcomeAdmin.setText(msg);
 
         createCourse = findViewById(R.id.btn_createCourse);
-        editCourse = findViewById(R.id.btn_editCourse);
         deleteCourse = findViewById(R.id.btn_deleteCourse);
         deleteAccount = findViewById(R.id.btn_deleteAccount);
         crsCode = findViewById(R.id.crsCodeForm);
         crsName = findViewById(R.id.crsNameForm);
         accName = findViewById(R.id.accNameForm);
+        toEditCourse = findViewById(R.id.toEditCourse);
 
 
         createCourse.setOnClickListener(new View.OnClickListener() {
@@ -48,12 +48,7 @@ public class AdminActivity extends AppCompatActivity{
             }
         });
 
-        editCourse.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
 
         deleteCourse.setOnClickListener(new View.OnClickListener() {
             @Override

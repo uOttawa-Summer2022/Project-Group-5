@@ -14,8 +14,10 @@
         android:theme="@style/Theme.Course_Booking"
         tools:targetApi="31">
         <activity
+            android:name=".EditCourse"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
-
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,27 +25,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".SignupActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".StudentActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".InstructorActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".AdminActivity"
+            android:exported="true"></activity>
+        <activity
+            android:name=".EditCourse"
+            android:exported="true"></activity>
 
-        <activity android:name=".SignupActivity"
-            android:exported="true">
-
-
-        </activity>
-        <activity android:name=".StudentActivity"
-            android:exported="true">
-
-
-        </activity>
-        <activity android:name=".InstructorActivity"
-            android:exported="true">
-
-
-        </activity>
-        <activity android:name=".AdminActivity"
-            android:exported="true">
-
-
-        </activity>
     </application>
 
 </manifest>

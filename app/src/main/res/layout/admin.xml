@@ -52,16 +52,16 @@
             android:text="@string/create" />
 
         <Button
-            android:id="@+id/btn_editCourse"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/edit" />
-
-        <Button
             android:id="@+id/btn_deleteCourse"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/deleteCourse" />
+
+        <TextView
+            android:id="@+id/toEditCourse"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/edit" />
 
         <TextView
             android:id="@+id/textView4"
@@ -78,6 +78,7 @@
             android:inputType="textPersonName"
             android:minHeight="48dp"
             android:hint="Enter accName" />
+
 
         <Button
             android:id="@+id/btn_deleteAccount"
