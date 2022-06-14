@@ -5,11 +5,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class AdminActivity extends AppCompatActivity{
     TextView welcomeAdmin;
     DBHelper db;
+    Button createCourse,editCourse,deleteCourse,deleteAccount;
 
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -22,6 +24,43 @@ public class AdminActivity extends AppCompatActivity{
         Log.d("MSG", msg);
         Log.d("name", user.getName());
         welcomeAdmin.setText(msg);
+
+        createCourse = findViewById(R.id.btn_createCourse);
+        editCourse = findViewById(R.id.btn_editCourse);
+        deleteCourse = findViewById(R.id.btn_deleteCourse);
+        deleteAccount = findViewById(R.id.btn_deleteAccount);
+
+
+        createCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        editCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        deleteCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
+        deleteAccount.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                
+            }
+        });
+
+
 
     }
 }

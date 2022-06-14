@@ -75,10 +75,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                //Still trying to figure out how to switch pages
-                //Intent intent = new Intent(this, SignupActivity);
-                //startActivity(intent);
-
 
                 startActivity(new Intent(getApplicationContext(), SignupActivity.class));
 
