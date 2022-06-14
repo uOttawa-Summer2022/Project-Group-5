@@ -36,21 +36,13 @@ public class DBHelper extends SQLiteOpenHelper {
         contentValues.put("password", password);
         contentValues.put("accType", String.valueOf(accType));
         long result = myDB.insert(TABLE_NAME,null,contentValues);
-        if (result == -1){
-            return false;
-        }else {
-            return true;
-        }
+        return result != -1;
     }
 
     public boolean checkusername(String name){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from users where name = ?",new String[]{name});
-        if(cursor.getCount()>0){
-            return true;
-        }else{
-            return false;
-        }
+        return cursor.getCount() > 0;
     }
 
     public UserModel findUser(String name){
