@@ -23,12 +23,13 @@ public class DBHelper_course extends SQLiteOpenHelper {
         db.execSQL("drop table if exists courses");
     }
 
-    public void insertCourse(String code, String name){
+    public void insertCourse(CourseModel course){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
-        contentValues.put("crsCode", code);
-        contentValues.put("crsName", name);
-        db.insert("courses",null,contentValues);
+        contentValues.put(COLUMN_CODE,course.getCrsCode());
+        contentValues.put(COLUMN_NAME,course.getCrsName());
+        db.insert(TABLE_NAME,null,contentValues);
+        db.close();
     }
 
     public void deleteCourse(String code){

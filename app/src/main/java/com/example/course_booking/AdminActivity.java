@@ -11,7 +11,8 @@ import android.widget.TextView;
 
 public class AdminActivity extends AppCompatActivity{
     TextView welcomeAdmin;
-    DBHelper db;
+    DBHelper db_account;
+    DBHelper_course db_course;
     Button createCourse,editCourse,deleteCourse,deleteAccount;
     EditText crsCode,crsName,accName;
 
@@ -20,7 +21,7 @@ public class AdminActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin);
         welcomeAdmin = (TextView)findViewById(R.id.welcomeAdmin);
-        db = new DBHelper(this);
+        db_account = new DBHelper(this);
         UserModel user = MainActivity.currentUser;
         String msg = "Welcome " +user.getName()+"! You are logged in as admin.";
         Log.d("MSG", msg);
@@ -39,7 +40,10 @@ public class AdminActivity extends AppCompatActivity{
         createCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String code = crsCode.getText().toString();
+                String name = crsName.getText().toString();
+                CourseModel course = new CourseModel(code,name);
+                db_course.insertCourse(course);
             }
         });
 
