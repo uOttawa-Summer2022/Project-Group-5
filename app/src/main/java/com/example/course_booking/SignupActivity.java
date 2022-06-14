@@ -26,7 +26,6 @@ public class SignupActivity extends AppCompatActivity {
 
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,8 +67,8 @@ public class SignupActivity extends AppCompatActivity {
                 } else if(accType == null){
                     Toast.makeText(SignupActivity.this, "Select Student or Instructor as account type", Toast.LENGTH_SHORT).show();
                 }else{
-                    boolean checkuser = db.checkusername(nameTxt);
-                    if(!checkuser){
+                    boolean checkUser = db.checkusername(nameTxt);
+                    if(!checkUser){
                         boolean insert = db.insertData(nameTxt,passwordTxt,accType);
                         if(insert){
                             Toast.makeText(SignupActivity.this,"Registered successfully",Toast.LENGTH_SHORT).show();
