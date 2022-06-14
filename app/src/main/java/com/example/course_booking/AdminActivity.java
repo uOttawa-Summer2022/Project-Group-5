@@ -61,7 +61,10 @@ public class AdminActivity extends AppCompatActivity{
                 if(code.isEmpty()) {
                     Toast.makeText(AdminActivity.this, "Please fill specify the code of the course you want to delete.", Toast.LENGTH_SHORT).show();
                 } else {
-                    db_course.deleteCourse(code);
+                    boolean result = db_course.deleteCourse(code);
+                    if (result){
+                        Toast.makeText(AdminActivity.this,"Deletion of course success",Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -85,16 +88,17 @@ public class AdminActivity extends AppCompatActivity{
                         switch(target.getAccType()){
                             case ADMIN:
                                 Toast.makeText(AdminActivity.this,"Cannot delete Admin account",Toast.LENGTH_SHORT).show();
+                                return;
                             case INSTRUCTOR:
                                 delete = db_account.deleteData(nameTxt);
                             case STUDENT:
                                 delete = db_account.deleteData(nameTxt);
                         }
                         if(delete){
-                            Toast.makeText(AdminActivity.this,"Deleteion success",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AdminActivity.this,"Deletion of account success",Toast.LENGTH_SHORT).show();
 
                         }else{
-                            Toast.makeText(AdminActivity.this,"Deletion fail",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AdminActivity.this,"Deletion of account fail",Toast.LENGTH_SHORT).show();
                         }
 
                     }else{
