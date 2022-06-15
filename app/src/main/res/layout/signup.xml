@@ -60,13 +60,15 @@
                 android:id="@+id/rdStudent"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/student" />
+                android:text="@string/student"
+                android:checked="true" />
 
             <RadioButton
                 android:id="@+id/rdInstructor"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/instructor" />
+                android:text="@string/instructor"
+                android:checked="false" />
         </RadioGroup>
 
     </LinearLayout>

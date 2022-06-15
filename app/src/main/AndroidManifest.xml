@@ -38,7 +38,7 @@
             android:name=".AdminActivity"
             android:exported="true"></activity>
         <activity
-            android:name=".EditCourse"
+            android:name=".Edit_course"
             android:exported="true"></activity>
 
     </application>

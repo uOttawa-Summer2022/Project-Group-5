@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class AdminActivity extends AppCompatActivity{
-    TextView welcomeAdmin,toEditCourse;
+    TextView welcomeAdmin,toEditCourse, logout;
     DBHelper db_account;
     DBHelper_course db_course;
     Button createCourse,deleteCourse,deleteAccount;
@@ -36,6 +36,7 @@ public class AdminActivity extends AppCompatActivity{
         crsName = findViewById(R.id.crsNameForm);
         accName = findViewById(R.id.accNameForm);
         toEditCourse = findViewById(R.id.toEditCourse);
+        logout = findViewById(R.id.logout);
 
 
         createCourse.setOnClickListener(new View.OnClickListener() {
@@ -47,8 +48,29 @@ public class AdminActivity extends AppCompatActivity{
                     Toast.makeText(AdminActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 } else {
                     CourseModel course = new CourseModel(code, name);
-                    db_course.insertCourse(course);
+                    boolean result = db_course.insertCourse(course);
+                    if(result){
+                        Toast.makeText(AdminActivity.this,"creation of course success",Toast.LENGTH_SHORT).show();
+
+                    }else{
+                        Toast.makeText(AdminActivity.this,"This course already exists",Toast.LENGTH_SHORT).show();
+                    }
                 }
+            }
+        });
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MainActivity.currentUser = null;
+                startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
+
+        toEditCourse.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(), Edit_course.class));
             }
         });
 
@@ -64,6 +86,8 @@ public class AdminActivity extends AppCompatActivity{
                     boolean result = db_course.deleteCourse(code);
                     if (result){
                         Toast.makeText(AdminActivity.this,"Deletion of course success",Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(AdminActivity.this,"Course does not exist",Toast.LENGTH_SHORT).show();
                     }
                 }
             }

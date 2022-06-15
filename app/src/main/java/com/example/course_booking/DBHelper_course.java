@@ -24,13 +24,27 @@ public class DBHelper_course extends SQLiteOpenHelper {
         db.execSQL("drop table if exists courses");
     }
 
-    public void insertCourse(CourseModel course){
+    public boolean insertCourse(CourseModel course){
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_CODE,course.getCrsCode());
         contentValues.put(COLUMN_NAME,course.getCrsName());
-        db.insert(TABLE_NAME,null,contentValues);
+
         db.close();
+
+        boolean result = false;
+
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COLUMN_CODE + " = \""
+                + course.getCrsCode() + "\"";
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.getCount() == 0) {
+            db.insert(TABLE_NAME,null,contentValues);
+            db.close();
+            cursor.close();
+            return true;
+        }
+        db.close();
+        return result;
     }
 
     public boolean deleteCourse(String code){
@@ -48,7 +62,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
         }
         if(cursor.moveToFirst()){
             String idStr = cursor.getString(0);
-            db.delete(TABLE_NAME, "name=?", new String[]{idStr});
+            db.delete(TABLE_NAME, "crsCode=?", new String[]{idStr});
             cursor.close();
             result = true;
         }
@@ -56,12 +70,16 @@ public class DBHelper_course extends SQLiteOpenHelper {
         return result;
     }
 
-    public void editCourse(String codeOld,String nameOld,String codeNew,String nameNew){
+    public boolean editCourse(String codeOld,String nameOld,String codeNew,String nameNew){
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete("courses",codeOld,null);
+        int rows = db.delete(TABLE_NAME, "crsCode=?", new String[]{codeOld});
+        if (rows == 0){
+            return false;
+        }
         ContentValues contentValues = new ContentValues();
         contentValues.put("crsCode", codeNew);
         contentValues.put("crsName", nameNew);
         db.insert("courses",null,contentValues);
+        return true;
     }
 }

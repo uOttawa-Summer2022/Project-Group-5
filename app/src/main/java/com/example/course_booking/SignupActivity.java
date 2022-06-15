@@ -35,7 +35,7 @@ public class SignupActivity extends AppCompatActivity {
         password = findViewById(R.id.passwordForm);
         btnSignUp = findViewById(R.id.btnSignup);
         returnLogin = findViewById(R.id.returnLogin);
-        RadioGroup radiogroup = (RadioGroup) findViewById(R.id.grpAccType);
+        RadioGroup radiogroup = findViewById(R.id.grpAccType);
 
 
         // find the radio button by returned id
@@ -49,11 +49,11 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int selectedId = radiogroup.getCheckedRadioButtonId();
-                RadioButton radioBtn = (RadioButton) findViewById(selectedId);
+                RadioButton radioBtn = findViewById(selectedId);
                 //get data from EditTexts into String variables
                 String nameTxt = username.getText().toString();
                 String passwordTxt = password.getText().toString();
-                String accTypeSTR = (String) radioBtn.getText().toString();
+                String accTypeSTR = radioBtn.getText().toString();
                 Type accType = null;
                 if (accTypeSTR.equals("Student")){
                     accType = Type.STUDENT;
