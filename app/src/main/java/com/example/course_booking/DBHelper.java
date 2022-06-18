@@ -19,8 +19,10 @@ public class DBHelper extends SQLiteOpenHelper {
     }
     @Override
     public void onCreate(SQLiteDatabase MyDB) {
-        MyDB.execSQL("create Table TABLE_NAME(COLUMN_USERNAME TEXT primary key, COLUMN_PASSWORD TEXT, COLUMN_TYPE TEXT)");
-
+        MyDB.execSQL("CREATE TABLE " + TABLE_NAME +
+                "(" + COLUMN_USERNAME + " VARCHAR(20) PRIMARY KEY, " +
+                COLUMN_PASSWORD + " VARCHAR(20)," +
+                COLUMN_TYPE + " VARCHAR(20))");
     }
 
     @Override
