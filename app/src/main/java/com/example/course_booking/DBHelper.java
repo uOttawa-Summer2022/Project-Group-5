@@ -15,10 +15,11 @@ public class DBHelper extends SQLiteOpenHelper {
     private static final String COLUMN_TYPE = "accType";
 
     public DBHelper(Context context){
-        super(context, "Login.db",null,1);
+        super(context, DBNAME,null,1);
     }
     @Override
     public void onCreate(SQLiteDatabase MyDB) {
+        //Create Table
         MyDB.execSQL("CREATE TABLE " + TABLE_NAME +
                 "(" + COLUMN_USERNAME + " VARCHAR(20) PRIMARY KEY, " +
                 COLUMN_PASSWORD + " VARCHAR(20)," +

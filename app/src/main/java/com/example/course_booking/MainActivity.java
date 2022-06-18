@@ -35,6 +35,9 @@ public class MainActivity extends AppCompatActivity {
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
 
+        //Create default Admin account
+        db.insertData("admin", "admin", Type.ADMIN);
+
 
 
         //When Login button is pressed
@@ -57,10 +60,13 @@ public class MainActivity extends AppCompatActivity {
                         switch (currentUser.getAccType()){
                             case STUDENT:
                                 startActivity(new Intent(getApplicationContext(), StudentActivity.class));
+                                break;
                             case INSTRUCTOR:
                                 startActivity(new Intent(getApplicationContext(), InstructorActivity.class));
+                                break;
                             case ADMIN:
                                 startActivity(new Intent(getApplicationContext(),AdminActivity.class));
+                                break;
                         }
 
                     }else{
