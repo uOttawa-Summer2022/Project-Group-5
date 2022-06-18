@@ -25,8 +25,6 @@ public class AdminActivity extends AppCompatActivity{
         db_account = new DBHelper(this);
         UserModel user = MainActivity.currentUser;
         String msg = "Welcome " +user.getName()+"! You are logged in as admin.";
-        Log.d("MSG", msg);
-        Log.d("name", user.getName());
         welcomeAdmin.setText(msg);
 
         createCourse = findViewById(R.id.btn_createCourse);

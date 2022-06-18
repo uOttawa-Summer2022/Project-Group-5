@@ -12,9 +12,10 @@
     <string name="student">Student</string>
     <string name="instructor">Instructor</string>
     <string name="create">CREATE</string>
-    <string name="edit">Click here for exit courses</string>
+    <string name="edit">Click here to Edit courses</string>
     <string name="deleteCourse">DELETE</string>
     <string name="deleteAccount">DELETE</string>
     <string name="modify">MODIFY</string>
+    <string name="logout">Log Out</string>
 
 </resources>
