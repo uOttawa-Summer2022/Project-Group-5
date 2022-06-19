@@ -59,7 +59,7 @@ public class AdminActivity extends AppCompatActivity{
                         }
 
                     }else{
-                        Toast.makeText(AdminActivity.this, "Course already exists! Please sign in",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdminActivity.this, "Course already exists!",Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -89,11 +89,14 @@ public class AdminActivity extends AppCompatActivity{
                 if(code.isEmpty()) {
                     Toast.makeText(AdminActivity.this, "Please fill specify the code of the course you want to delete.", Toast.LENGTH_SHORT).show();
                 } else {
-                    boolean result = db_course.deleteCourse(code);
-                    if (result){
-                        Toast.makeText(AdminActivity.this,"Deletion of course success",Toast.LENGTH_SHORT).show();
-                    } else {
-                        Toast.makeText(AdminActivity.this,"Course does not exist",Toast.LENGTH_SHORT).show();
+                    boolean checkCrsCode = db_course.checkCourse(code);
+                    if(checkCrsCode) {
+                        boolean result = db_course.deleteCourse(code);
+                        if (result) {
+                            Toast.makeText(AdminActivity.this, "Deletion of course success", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(AdminActivity.this, "Course does not exist", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }
             }
