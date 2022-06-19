@@ -24,6 +24,12 @@ public class DBHelper extends SQLiteOpenHelper {
                 "(" + COLUMN_USERNAME + " VARCHAR(20) PRIMARY KEY, " +
                 COLUMN_PASSWORD + " VARCHAR(20)," +
                 COLUMN_TYPE + " VARCHAR(20))");
+
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USERNAME,"admin");
+        values.put(COLUMN_PASSWORD,"admin");
+        values.put(COLUMN_TYPE,"ADMIN");
+        MyDB.insert(TABLE_NAME, null, values);
     }
 
     @Override

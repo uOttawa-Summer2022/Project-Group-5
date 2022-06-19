@@ -16,7 +16,7 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
-
+    DBHelper_course db_course;
     DBHelper db;
     EditText username,password;
     Button login;
@@ -32,11 +32,13 @@ public class MainActivity extends AppCompatActivity {
         login = findViewById(R.id.btnLogin);
         signup = findViewById(R.id.signUp);
         db = new DBHelper(this);
+        db_course = new DBHelper_course(this);
         username = findViewById(R.id.username);
         password = findViewById(R.id.password);
 
         //Create default Admin account
-        db.insertData("admin", "admin", Type.ADMIN);
+        //db.insertData("admin", "admin", Type.ADMIN);
+        //db.insertData("Max", "secret", Type.ADMIN);
 
 
 
