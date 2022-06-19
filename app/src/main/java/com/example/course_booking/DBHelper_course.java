@@ -58,7 +58,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
         int rows = db.delete(TABLE_NAME2, "crsCode=?", new String[]{code});
         Log.d("course code", code);
         if (rows == 0){
-            return false;
+            result = false;
         }
         db.close();
         return result;
