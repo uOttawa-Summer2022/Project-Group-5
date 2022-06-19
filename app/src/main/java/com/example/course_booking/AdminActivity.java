@@ -23,6 +23,7 @@ public class AdminActivity extends AppCompatActivity{
         setContentView(R.layout.admin);
         welcomeAdmin = (TextView)findViewById(R.id.welcomeAdmin);
         db_account = new DBHelper(this);
+        db_course = new DBHelper_course(this);
         UserModel user = MainActivity.currentUser;
         String msg = "Welcome " +user.getName()+"! You are logged in as admin.";
         welcomeAdmin.setText(msg);
@@ -37,6 +38,7 @@ public class AdminActivity extends AppCompatActivity{
         logout = findViewById(R.id.logout);
 
 
+
         createCourse.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -45,13 +47,19 @@ public class AdminActivity extends AppCompatActivity{
                 if(code.isEmpty() || name.isEmpty()) {
                     Toast.makeText(AdminActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 } else {
-                    CourseModel course = new CourseModel(code, name);
-                    boolean result = db_course.insertCourse(course);
-                    if(result){
-                        Toast.makeText(AdminActivity.this,"creation of course success",Toast.LENGTH_SHORT).show();
+                    CourseModel course = new CourseModel(name, code);
+                    boolean checkCrsCode = db_course.checkCourse(code);
+                    if(!checkCrsCode){
+                        boolean insert = db_course.insertCourse(course);
+                        if(insert){
+                            Toast.makeText(AdminActivity.this,"Registered successfully",Toast.LENGTH_SHORT).show();
+
+                        }else{
+                            Toast.makeText(AdminActivity.this,"Registered failed",Toast.LENGTH_SHORT).show();
+                        }
 
                     }else{
-                        Toast.makeText(AdminActivity.this,"This course already exists",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AdminActivity.this, "Course already exists! Please sign in",Toast.LENGTH_SHORT).show();
                     }
                 }
             }
