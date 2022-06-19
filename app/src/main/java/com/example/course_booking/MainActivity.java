@@ -54,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
                 if(nameTxt.isEmpty() || passwordTxt.isEmpty()){
                     Toast.makeText(MainActivity.this, "Please enter your name or password", Toast.LENGTH_SHORT).show();
                 }else{
-                    boolean checkuserpass = db.checkpassword(nameTxt,passwordTxt);
-                    if (checkuserpass){
+                    boolean checkUserPass = db.checkPassword(nameTxt,passwordTxt);
+                    if (checkUserPass){
                         Toast.makeText(MainActivity.this,"Log in successfully",Toast.LENGTH_SHORT).show();
                         currentUser = db.findUser(nameTxt);
                         Log.d("type", String.valueOf(currentUser));

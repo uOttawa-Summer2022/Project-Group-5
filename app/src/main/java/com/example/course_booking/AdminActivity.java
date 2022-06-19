@@ -110,7 +110,7 @@ public class AdminActivity extends AppCompatActivity{
                 if(nameTxt.isEmpty()){
                     Toast.makeText(AdminActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                 }else{
-                    boolean checkUser = db_account.checkusername(nameTxt);
+                    boolean checkUser = db_account.checkUsername(nameTxt);
                     UserModel target = db_account.findUser(nameTxt);
                     boolean delete = false;
 

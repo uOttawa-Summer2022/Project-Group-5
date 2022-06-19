@@ -67,7 +67,7 @@ public class SignupActivity extends AppCompatActivity {
                 } else if(accType == null){
                     Toast.makeText(SignupActivity.this, "Select Student or Instructor as account type", Toast.LENGTH_SHORT).show();
                 }else{
-                    boolean checkUser = db.checkusername(nameTxt);
+                    boolean checkUser = db.checkUsername(nameTxt);
                     if(!checkUser){
                         boolean insert = db.insertData(nameTxt,passwordTxt,accType);
                         if(insert){
