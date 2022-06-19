@@ -1,5 +1,7 @@
 package com.example.course_booking;
 
+import androidx.annotation.NonNull;
+
 public class UserModel {
 
     private String name;
@@ -41,6 +43,7 @@ public class UserModel {
         this.accType = accType;
     }
 
+    @NonNull
     @Override
     public String toString() {
         return "UserModel{" +

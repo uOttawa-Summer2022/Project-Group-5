@@ -70,6 +70,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
         if (rows == 0){
             return false;
         }
+        
         ContentValues contentValues = new ContentValues();
         contentValues.put("crsCode", codeNew);
         contentValues.put("crsName", nameNew);

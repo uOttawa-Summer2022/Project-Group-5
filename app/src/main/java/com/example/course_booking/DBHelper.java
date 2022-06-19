@@ -82,11 +82,13 @@ public class DBHelper extends SQLiteOpenHelper {
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from users where name = ?",new String[]{name});
         if(cursor.getCount()>0){
+
             cursor.moveToFirst();
             target.setName(name);
             target.setPassword(cursor.getString(1));
             String accTypeSTR = cursor.getString(2);
-            Type accType = null;
+            Type accType;
+
             if (accTypeSTR.equals("STUDENT")){
                 accType = Type.STUDENT;
             } else if (accTypeSTR.equals("INSTRUCTOR")){
@@ -94,6 +96,7 @@ public class DBHelper extends SQLiteOpenHelper {
             } else {
                 accType = Type.ADMIN;
             }
+
             target.setAccType(accType);
             return target;
 

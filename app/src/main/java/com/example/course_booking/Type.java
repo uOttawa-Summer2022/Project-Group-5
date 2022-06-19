@@ -1,5 +1,5 @@
 package com.example.course_booking;
 
 public enum Type {
-    ADMIN,STUDENT,INSTRUCTOR;
+    ADMIN,STUDENT,INSTRUCTOR
 }
