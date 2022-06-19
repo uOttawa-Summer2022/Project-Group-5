@@ -6,7 +6,9 @@ public class AdminModel extends UserModel{
         super(name, password, accType);
     }
 
-    public void createCourse(String crsCode, String crsName){
+    //To avoid confusion, this part is hidden since it's not used.
+
+    /*public void createCourse(String crsCode, String crsName){
         //CourseModel newCourse = new CourseModel(crsName, crsCode);
     }
 
@@ -20,6 +22,6 @@ public class AdminModel extends UserModel{
 
     public void deleteAccount(String acc, Type accType){
 
-    }
+    }*/
 
 }
