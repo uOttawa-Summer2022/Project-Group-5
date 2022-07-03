@@ -11,6 +11,7 @@ import android.util.Log;
 import com.google.android.gms.common.util.Strings;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class DBHelper_course extends SQLiteOpenHelper {
 
@@ -244,6 +245,106 @@ public class DBHelper_course extends SQLiteOpenHelper {
         }
         db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
         return true;
+    }
+
+    public ArrayList<CourseModel> getEveryone(){
+        ArrayList<CourseModel> returnList = new ArrayList<>();
+
+        //get data from the database
+
+        String queryString  = "SELECT * From " + TABLE_NAME2;
+
+        SQLiteDatabase db = this.getReadableDatabase();
+
+        Cursor cursor = db.rawQuery(queryString,null);
+
+        //return true if there were items selected
+        if(cursor.moveToFirst()){
+            //loop through the cursor and create new customer objects. Put them into the return list.
+            do{
+                String crsCode = cursor.getString(0);
+                String crsName = cursor.getString(1);
+                String crsDescription = cursor.getString(2);
+                String crsCapacity = cursor.getString(3);
+                String crsInstructor = cursor.getString(4);
+                String crsSessionList = cursor.getString(5);
+
+                CourseModel newCourse = new CourseModel(crsCode,crsName);
+                returnList.add(newCourse);
+            }while(cursor.moveToNext());
+        }
+
+
+
+
+        return returnList;
+    }
+
+    public ArrayList<String> searchCourse1(String crsCode){
+        ArrayList<String> courseList = new ArrayList<String>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = " SELECT * FROM " + TABLE_NAME2 + " WHERE " + COLUMN_CODE + crsCode;
+
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.getCount() == 0) {
+            db.close();
+            return courseList;
+        }
+        cursor.moveToFirst();
+        courseList.add(cursor.getString(1) + " " +cursor.getString(2));
+        cursor.moveToNext();
+        while (!cursor.isAfterLast()) {
+            courseList.add(cursor.getString(1) + " " +cursor.getString(2));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+        return courseList;
+    }
+
+    public ArrayList<String> searchCourse2(String crsName){
+        ArrayList<String> courseList = new ArrayList<String>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = " SELECT * FROM " + TABLE_NAME2 + " WHERE " + COLUMN_NAME + crsName;
+
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.getCount() == 0) {
+            db.close();
+            return courseList;
+        }
+        cursor.moveToFirst();
+        courseList.add(cursor.getString(1) + " " +cursor.getString(2));
+        cursor.moveToNext();
+        while (!cursor.isAfterLast()) {
+            courseList.add(cursor.getString(1) + " " +cursor.getString(2));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+        return courseList;
+
+    }
+
+    public ArrayList<String> searchCourse3(String crsCode, String crsName){
+        ArrayList<String> courseList = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = "SELECT * FROM" + TABLE_NAME2 + "WHERE" + COLUMN_CODE + " = \"" + crsCode + "\"" + "AND" + COLUMN_NAME + " = \"" + crsName + "\"";
+        Cursor cursor = db.rawQuery(query,null);
+        if (cursor.getCount()==0){
+            db.close();
+            cursor.close();
+            return courseList;
+        }
+        cursor.moveToFirst();
+        courseList.add(cursor.getString(1)+ " "+ cursor.getString(2));
+        cursor.moveToNext();
+        while(!cursor.isAfterLast()) {
+            courseList.add(cursor.getString(1) + " " +cursor.getString(2));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+        return courseList;
     }
 
 

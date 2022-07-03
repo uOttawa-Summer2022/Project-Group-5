@@ -17,5 +17,14 @@
     <string name="deleteAccount">DELETE</string>
     <string name="modify">MODIFY</string>
     <string name="logout">Log Out</string>
+    <string name="viewAll">VIEW ALL</string>
+    <string name="search">SEARCH</string>
+    <string name="info">You can enter the crsCode to check if the course has assigned instructor</string>
+    <string name="checkAssigned">CHECK ASSIGNED</string>
+    <string name="btn_assign">ASSIGN</string>
+    <string name="addOrEdit">You can add or edit the course details</string>
+    <string name="add">ADD</string>
+    <string name="edit_details">EDIT</string>
+    <string name="unAssign">Click here if you want to un-assign</string>
 
 </resources>
