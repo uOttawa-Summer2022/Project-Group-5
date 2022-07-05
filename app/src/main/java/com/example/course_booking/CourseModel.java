@@ -21,6 +21,15 @@ public class CourseModel {
         this.crsSessionList = new ArrayList<Session>();
     }
 
+    public CourseModel() {
+        this.crsName = "";
+        this.crsCode = "";
+        this.crsDescription = "";
+        this.crsCapacity = 0;
+        this.crsInstructor = "";
+        this.crsSessionList = new ArrayList<Session>();
+    }
+
 
     //getters and setters
     public String getCrsName() {
@@ -60,6 +69,12 @@ public class CourseModel {
     public void setcrsCapacity(int capacity) {
         this.crsCapacity = capacity;
     }
+
+    public void setCrsSessionList(ArrayList<Session> crsSessionList) {
+        this.crsSessionList = crsSessionList;
+    }
+
+    public ArrayList<Session> getcrsSessionList() {return crsSessionList;}
 
     @Override
     public String toString() {

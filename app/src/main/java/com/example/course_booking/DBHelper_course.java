@@ -66,6 +66,73 @@ public class DBHelper_course extends SQLiteOpenHelper {
         return cursor.getCount() > 0;
     }
 
+    public ArrayList<Session> stringtoSessionList(String sessionListSTR){
+        ArrayList<Session> fullSessionList = new ArrayList<Session>();
+        String[] singleSess = sessionListSTR.split(",");
+        String[] separateSessParts;
+        for(String sessionSegment: singleSess) {
+            separateSessParts = sessionSegment.split(";");
+            Day oldDay = null;
+            switch (separateSessParts[0]) {
+                case "MONDAY":
+                    oldDay = Day.MONDAY;
+                    break;
+                case "TUESDAY":
+                    oldDay = Day.TUESDAY;
+                    break;
+                case "WEDNESDAY":
+                    oldDay = Day.WEDNESDAY;
+                    break;
+                case "THURSDAY":
+                    oldDay = Day.THURSDAY;
+                    break;
+                case "FRIDAY":
+                    oldDay = Day.FRIDAY;
+            }
+            Session properSession = new Session(oldDay, Integer.parseInt(separateSessParts[1]),
+                    Integer.parseInt(separateSessParts[2]), Integer.parseInt(separateSessParts[3]),
+                    Integer.parseInt(separateSessParts[4]));
+            fullSessionList.add(properSession);
+        }
+        return fullSessionList;
+    }
+    public String sessionListToString(ArrayList<Session> sessionList){
+        String sessionListSTR = "";
+        for (int i = 0; i < sessionList.size()-1; i++) {
+            sessionListSTR += sessionList.get(i).toString() + ",";
+        }
+        sessionListSTR += sessionList.get(sessionList.size()-1).toString();
+        return sessionListSTR;
+    }
+
+    public CourseModel getCourse(String code){
+        CourseModel retrievedCourse;
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select * from courses where crsCode = ?",new String[]{code});
+        if(cursor.moveToFirst()){
+            retrievedCourse = new CourseModel(code, cursor.getString(1));
+            if(!cursor.isNull(2)){
+                retrievedCourse.setCrsDescription(cursor.getString(2));
+            }
+
+            if(!cursor.isNull(3)){
+                retrievedCourse.setcrsCapacity(cursor.getInt(3));
+            }
+
+            if(!cursor.isNull(4)){
+                retrievedCourse.setcrsInstructor(cursor.getString(4));
+            }
+
+            if(!cursor.isNull(5)){
+                retrievedCourse.setCrsSessionList(stringtoSessionList(cursor.getString(5)));
+            }
+
+            return retrievedCourse;
+        }
+        return null;
+
+    }
+
     public boolean checkCrsInstructor(String code){
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from courses where crsInstructor is not null and crsCode = ?",new String[]{code});
@@ -78,48 +145,25 @@ public class DBHelper_course extends SQLiteOpenHelper {
         return cursor.getCount() > 0;
     }
 
-    public boolean checkCrsSession(String[] sessionList, Session newSession){
-        for(String session: sessionList){
-            String[] singleSess = session.split(",");
-            String[] separateSessParts;
-            for(String sessionSegment: singleSess){
-                separateSessParts = sessionSegment.split(";");
-                Day oldDay = null;
-                switch (separateSessParts[0]){
-                    case "MONDAY":
-                        oldDay = Day.MONDAY;
-                        break;
-                    case "TUESDAY":
-                        oldDay = Day.TUESDAY;
-                        break;
-                    case "WEDNESDAY":
-                        oldDay = Day.WEDNESDAY;
-                        break;
-                    case "THURSDAY":
-                        oldDay = Day.THURSDAY;
-                        break;
-                    case "FRIDAY":
-                        oldDay = Day.FRIDAY;
-                }
-                Session oldSession = new Session(oldDay, Integer.parseInt(separateSessParts[1]),
-                        Integer.parseInt(separateSessParts[2]), Integer.parseInt(separateSessParts[3]),
-                        Integer.parseInt(separateSessParts[4]));
-                if(oldSession.getDay().equals(newSession.getDay())){
-                    if(oldSession.getStartHour() == newSession.getStartHour()){return false;}
-                    if(oldSession.getEndHour() == newSession.getEndHour()){return false;}
-                    if(oldSession.getStartHour() == newSession.getEndHour()){
-                        if(oldSession.getStartMinute() <= newSession.getEndMinute()){return false;}
-                    }
-                    if(newSession.getStartHour() == oldSession.getEndHour()){
-                        if(newSession.getStartMinute() <= oldSession.getEndMinute()){return false;}
-                    }
-                    if(newSession.getStartHour() >= oldSession.getStartHour() &&
-                            oldSession.getEndHour() >= newSession.getStartHour()){return false;}
-                    if(newSession.getEndHour() >= oldSession.getStartHour() &&
-                            oldSession.getEndHour() >= newSession.getEndHour()){return false;}
-                }
-            }
+    public boolean checkCrsSession(ArrayList<Session> sessionList, Session newSession){
+        for(Session oldSession:sessionList){
 
+            if(oldSession.getDay().equals(newSession.getDay())){
+
+                if(oldSession.getStartHour() == newSession.getStartHour()){return false;}
+                if(oldSession.getEndHour() == newSession.getEndHour()){return false;}
+                if(oldSession.getStartHour() == newSession.getEndHour()){
+                    if(oldSession.getStartMinute() <= newSession.getEndMinute()){return false;}
+                }
+                if(newSession.getStartHour() == oldSession.getEndHour()){
+                    if(newSession.getStartMinute() <= oldSession.getEndMinute()){return false;}
+                }
+                if(newSession.getStartHour() >= oldSession.getStartHour() &&
+                            oldSession.getEndHour() >= newSession.getStartHour()){return false;}
+                if(newSession.getEndHour() >= oldSession.getStartHour() &&
+                            oldSession.getEndHour() >= newSession.getEndHour()){return false;}
+
+            }
         }
         return true;
     }
@@ -149,18 +193,18 @@ public class DBHelper_course extends SQLiteOpenHelper {
         return true;
     }
 
-    public boolean editCrsDescription(String crsCode,String newDescritpion){
+    public boolean editCrsDescription(String crsCode,String newDescription){
         SQLiteDatabase db = this.getWritableDatabase();
 
         ContentValues contentValues = new ContentValues();
-        contentValues.put("crsDescription", newDescritpion);
+        contentValues.put("crsDescription", newDescription);
         db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
         return true;
     }
     public Cursor getData() {
         SQLiteDatabase db = this.getReadableDatabase();
         String query = "SELECT * FROM " + TABLE_NAME2;
-        return db.rawQuery(query, null); // returns "cursor" all products from the table
+        return db.rawQuery(query, null); // returns "cursor" all courses from the table
     }
 
     public boolean editCrsCapacity(String crsCode, int crsCapacity){
@@ -183,7 +227,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
             contentValues.put("crsSessionList", newSession.toString());
         } else{
             sessionListSTR= cursor.getString(5);
-            String[] sessionList = cursor.getString(5).split(",");
+            ArrayList<Session> sessionList = stringtoSessionList(sessionListSTR);
             if(checkCrsSession(sessionList, newSession)){
                 sessionListSTR += ";"+newSession.toString();
                 contentValues.put("crsSessionList", sessionListSTR);
@@ -251,40 +295,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
         db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
         return true;
     }
-
-    public ArrayList<CourseModel> getEveryone(){
-        ArrayList<CourseModel> returnList = new ArrayList<>();
-
-        //get data from the database
-
-        String queryString  = "SELECT * From " + TABLE_NAME2;
-
-        SQLiteDatabase db = this.getReadableDatabase();
-
-        Cursor cursor = db.rawQuery(queryString,null);
-
-        //return true if there were items selected
-        if(cursor.moveToFirst()){
-            //loop through the cursor and create new customer objects. Put them into the return list.
-            do{
-                String crsCode = cursor.getString(0);
-                String crsName = cursor.getString(1);
-                String crsDescription = cursor.getString(2);
-                String crsCapacity = cursor.getString(3);
-                String crsInstructor = cursor.getString(4);
-                String crsSessionList = cursor.getString(5);
-
-                CourseModel newCourse = new CourseModel(crsCode,crsName);
-                returnList.add(newCourse);
-            }while(cursor.moveToNext());
-        }
-
-
-
-
-        return returnList;
-    }
-
+    
     public ArrayList<String> searchCourse1(String crsName){
         ArrayList<String> courseList = new ArrayList<String>();
         SQLiteDatabase db = this.getWritableDatabase();

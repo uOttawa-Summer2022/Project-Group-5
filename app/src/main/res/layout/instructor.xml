@@ -59,24 +59,41 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/info" />
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+            <Button
+                android:id="@+id/btn_checkAssigned"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/checkAssigned"
+                android:layout_margin="5dp"/>
 
+            <Button
+                android:id="@+id/btn_assign"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/btn_assign"
+                android:layout_margin="5dp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
         <Button
-            android:id="@+id/btn_checkAssigned"
+            android:id="@+id/btn_modify_assigned"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/checkAssigned" />
-
-        <Button
-            android:id="@+id/btn_assign"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/btn_assign" />
+            android:text="@string/modify_assigned_course"
+            android:layout_margin="5dp"/>
 
         <Button
             android:id="@+id/btnLogoutInstructor"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/logout" />
+            android:text="@string/logout"
+            android:layout_margin="5dp"/>
+        </TableRow>
 
     </LinearLayout>
 

@@ -22,7 +22,7 @@ public class InstructorActivity extends AppCompatActivity{
     TextView welcomeInstructor;
     DBHelper db;
     DBHelper_course db_course;
-    Button btnLogout,btnViewALL,btnSearch;
+    Button btnLogout,btnViewALL,btnSearch, btnAssign, btnCheckAssign,btnModifyAssign;
 
     ArrayList<String> crsList;
     ArrayAdapter adapter;
@@ -40,6 +40,9 @@ public class InstructorActivity extends AppCompatActivity{
         btnLogout = findViewById(R.id.btnLogoutInstructor);
         btnViewALL = findViewById(R.id.btn_viewAll);
         btnSearch = findViewById(R.id.btn_search);
+        btnAssign = findViewById(R.id.btn_assign);
+        btnCheckAssign = findViewById(R.id.btn_checkAssigned);
+        btnModifyAssign = findViewById(R.id.btn_modify_assigned);
 
         //list
         crsList= new ArrayList<>();
@@ -66,6 +69,69 @@ public class InstructorActivity extends AppCompatActivity{
             public void onClick(View view) {
                 MainActivity.currentUser = null;
                 startActivity(new Intent(getApplicationContext(), MainActivity.class));
+            }
+        });
+
+        btnCheckAssign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(crsCode.getText().toString().equals("")){
+                    Toast.makeText(InstructorActivity.this, "Specify the crsCode", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String code = crsCode.getText().toString();
+                if(!db_course.checkCourse(code)){
+                    Toast.makeText(InstructorActivity.this, "Course does not exist",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(db_course.checkCrsInstructor(code)){
+                    Toast.makeText(InstructorActivity.this, "This course has an instructor",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(InstructorActivity.this, "This course does not have an instructor",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnAssign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(crsCode.getText().toString().equals("")){
+                    Toast.makeText(InstructorActivity.this, "Specify the crsCode", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String code = crsCode.getText().toString();
+                if(!db_course.checkCourse(code)){
+                    Toast.makeText(InstructorActivity.this, "Course does not exist",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if(db_course.checkCrsInstructor(code)){
+                    Toast.makeText(InstructorActivity.this, "This course has an instructor",Toast.LENGTH_SHORT).show();
+                } else {
+                    if(db_course.editCrsInstructor(code, MainActivity.currentUser.getName(), false)){
+                        Toast.makeText(InstructorActivity.this, "Course assignment succesful",Toast.LENGTH_SHORT).show();
+                    } else{
+                        Toast.makeText(InstructorActivity.this, "Course assignment failed",Toast.LENGTH_SHORT).show();
+
+                    }
+                }
+            }
+        });
+        btnModifyAssign.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(crsCode.getText().toString().equals("")){
+                    Toast.makeText(InstructorActivity.this, "Specify the crsCode", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String code = crsCode.getText().toString();
+                if(!db_course.checkCourse(code)){
+                    Toast.makeText(InstructorActivity.this, "Course does not exist",Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                MainActivity.currentCourse = db_course.getCourse(code);
+                startActivity(new Intent(getApplicationContext(), AddOrEditCourseDetails.class));
+
             }
         });
 
