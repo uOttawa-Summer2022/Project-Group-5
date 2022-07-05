@@ -2,6 +2,7 @@ package com.example.course_booking;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -40,6 +41,9 @@ public class InstructorActivity extends AppCompatActivity{
         btnViewALL = findViewById(R.id.btn_viewAll);
         btnSearch = findViewById(R.id.btn_search);
 
+        //list
+        crsList= new ArrayList<>();
+
         //listview
         crsListView = findViewById(R.id.productListView);
 
@@ -69,7 +73,7 @@ public class InstructorActivity extends AppCompatActivity{
         btnViewALL.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                viewCourses(crsList);
+                viewCourses();
             }
         });
 
@@ -84,6 +88,9 @@ public class InstructorActivity extends AppCompatActivity{
                     crsList = db_course.searchCourse2(crsCode.getText().toString());
                 } else if (!crsCode.getText().toString().equals("") && !crsName.getText().toString().equals("")){
                     crsList = db_course.searchCourse3(crsCode.getText().toString(),crsName.getText().toString());
+                } else {
+                    viewCourses();
+                    return;
                 }
                 viewCourses(crsList);
 
@@ -94,6 +101,21 @@ public class InstructorActivity extends AppCompatActivity{
     }
     private void viewCourses(ArrayList<String> list) {
         adapter = new ArrayAdapter<>(InstructorActivity.this, android.R.layout.simple_list_item_1, list);
+        crsListView.setAdapter(adapter);
+    }
+
+    private void viewCourses() {
+        crsList.clear();
+        Cursor cursor = db_course.getData();
+        if (cursor.getCount() == 0) {
+            Toast.makeText(InstructorActivity.this, "Nothing to show", Toast.LENGTH_SHORT).show();
+        } else {
+            while (cursor.moveToNext()) {
+                crsList.add(cursor.getString(0) + " - " +cursor.getString(1));
+            }
+        }
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, crsList);
         crsListView.setAdapter(adapter);
     }
 }

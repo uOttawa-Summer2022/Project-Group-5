@@ -50,7 +50,7 @@
         <ListView
             android:id="@+id/productListView"
             android:layout_width="370dp"
-            android:layout_height="304dp"
+            android:layout_height="225dp"
             android:layout_marginTop="10dp" />
 
 

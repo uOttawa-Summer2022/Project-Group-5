@@ -157,6 +157,11 @@ public class DBHelper_course extends SQLiteOpenHelper {
         db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
         return true;
     }
+    public Cursor getData() {
+        SQLiteDatabase db = this.getReadableDatabase();
+        String query = "SELECT * FROM " + TABLE_NAME2;
+        return db.rawQuery(query, null); // returns "cursor" all products from the table
+    }
 
     public boolean editCrsCapacity(String crsCode, int crsCapacity){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -280,10 +285,11 @@ public class DBHelper_course extends SQLiteOpenHelper {
         return returnList;
     }
 
-    public ArrayList<String> searchCourse1(String crsCode){
+    public ArrayList<String> searchCourse1(String crsName){
         ArrayList<String> courseList = new ArrayList<String>();
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = " SELECT * FROM " + TABLE_NAME2 + " WHERE " + COLUMN_CODE + crsCode;
+        String query = " SELECT * FROM " + TABLE_NAME2 + " WHERE " + COLUMN_NAME +
+                " LIKE "+ "'" +crsName+ "%'";
 
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.getCount() == 0) {
@@ -291,10 +297,10 @@ public class DBHelper_course extends SQLiteOpenHelper {
             return courseList;
         }
         cursor.moveToFirst();
-        courseList.add(cursor.getString(1) + " " +cursor.getString(2));
+        courseList.add(cursor.getString(0) + " - " +cursor.getString(1));
         cursor.moveToNext();
         while (!cursor.isAfterLast()) {
-            courseList.add(cursor.getString(1) + " " +cursor.getString(2));
+            courseList.add(cursor.getString(0) + " - " +cursor.getString(1));
             cursor.moveToNext();
         }
         cursor.close();
@@ -302,10 +308,11 @@ public class DBHelper_course extends SQLiteOpenHelper {
         return courseList;
     }
 
-    public ArrayList<String> searchCourse2(String crsName){
+    public ArrayList<String> searchCourse2(String crsCode){
         ArrayList<String> courseList = new ArrayList<String>();
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = " SELECT * FROM " + TABLE_NAME2 + " WHERE " + COLUMN_NAME + crsName;
+        String query = " SELECT * FROM " + TABLE_NAME2 + " WHERE " + COLUMN_CODE +
+                " LIKE "+ "'" +crsCode+ "%'";
 
         Cursor cursor = db.rawQuery(query, null);
         if (cursor.getCount() == 0) {
@@ -313,10 +320,10 @@ public class DBHelper_course extends SQLiteOpenHelper {
             return courseList;
         }
         cursor.moveToFirst();
-        courseList.add(cursor.getString(1) + " " +cursor.getString(2));
+        courseList.add(cursor.getString(0) + " - " +cursor.getString(1));
         cursor.moveToNext();
         while (!cursor.isAfterLast()) {
-            courseList.add(cursor.getString(1) + " " +cursor.getString(2));
+            courseList.add(cursor.getString(0) + " - " +cursor.getString(1));
             cursor.moveToNext();
         }
         cursor.close();
@@ -328,7 +335,8 @@ public class DBHelper_course extends SQLiteOpenHelper {
     public ArrayList<String> searchCourse3(String crsCode, String crsName){
         ArrayList<String> courseList = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
-        String query = "SELECT * FROM" + TABLE_NAME2 + "WHERE" + COLUMN_CODE + " = \"" + crsCode + "\"" + "AND" + COLUMN_NAME + " = \"" + crsName + "\"";
+        String query = " SELECT * FROM " + TABLE_NAME2 + " WHERE " + COLUMN_NAME +
+                " LIKE "+ "'" +crsName+ "%'" + " AND " + COLUMN_CODE + " LIKE "+ "'" +crsCode+ "%'";
         Cursor cursor = db.rawQuery(query,null);
         if (cursor.getCount()==0){
             db.close();
@@ -336,10 +344,10 @@ public class DBHelper_course extends SQLiteOpenHelper {
             return courseList;
         }
         cursor.moveToFirst();
-        courseList.add(cursor.getString(1)+ " "+ cursor.getString(2));
+        courseList.add(cursor.getString(0)+ " - "+ cursor.getString(1));
         cursor.moveToNext();
         while(!cursor.isAfterLast()) {
-            courseList.add(cursor.getString(1) + " " +cursor.getString(2));
+            courseList.add(cursor.getString(0) + " - " +cursor.getString(1));
             cursor.moveToNext();
         }
         cursor.close();
