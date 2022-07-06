@@ -67,7 +67,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
     }
 
     public ArrayList<Session> stringtoSessionList(String sessionListSTR){
-        ArrayList<Session> fullSessionList = new ArrayList<Session>();
+        ArrayList<Session> fullSessionList = new ArrayList<>();
         String[] singleSess = sessionListSTR.split(",");
         String[] separateSessParts;
         for(String sessionSegment: singleSess) {
@@ -255,9 +255,9 @@ public class DBHelper_course extends SQLiteOpenHelper {
                 }
                 else{
                     if(newSessionList.equals("")){
-                        newSessionList+=session.toString();
+                        newSessionList+= session.toString();;
                     }else {
-                        newSessionList += "," + session.toString();
+                        newSessionList += "," + session.toString();;
                     }
                 }
             }
@@ -298,7 +298,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
     }
     
     public ArrayList<String> searchCourse1(String crsName){
-        ArrayList<String> courseList = new ArrayList<String>();
+        ArrayList<String> courseList = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String query = " SELECT * FROM " + TABLE_NAME2 + " WHERE " + COLUMN_NAME +
                 " LIKE "+ "'" +crsName+ "%'";
@@ -321,7 +321,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
     }
 
     public ArrayList<String> searchCourse2(String crsCode){
-        ArrayList<String> courseList = new ArrayList<String>();
+        ArrayList<String> courseList = new ArrayList<>();
         SQLiteDatabase db = this.getWritableDatabase();
         String query = " SELECT * FROM " + TABLE_NAME2 + " WHERE " + COLUMN_CODE +
                 " LIKE "+ "'" +crsCode+ "%'";
