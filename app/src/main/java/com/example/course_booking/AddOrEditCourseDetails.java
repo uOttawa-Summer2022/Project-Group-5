@@ -143,6 +143,19 @@ public class AddOrEditCourseDetails extends AppCompatActivity {
         deleteSession.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String day = courseDay.getText().toString();
+                String crsStartHour = startHour.getText().toString();
+                String crsStartMinute = startMinute.getText().toString();
+                String crsEndHour = endHour.getText().toString();
+                String crsEndMinute = endMinute.getText().toString();
+
+                Session session = new Session(stringToDay(day),Integer.parseInt(crsStartHour),Integer.parseInt(crsStartMinute),Integer.parseInt(crsEndHour),Integer.parseInt(crsEndMinute));
+                //check whether session is in sessionList
+
+
+
+
+                db_course.deleteCrsSession(MainActivity.currentCourse.getCrsCode(),session);
 
             }
         });
@@ -150,6 +163,8 @@ public class AddOrEditCourseDetails extends AppCompatActivity {
         unAssign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Instructor, Capacity,Description,Session-->null
+                db_course.editCrsInstructor(MainActivity.currentCourse.getCrsCode(),null,true);
 
             }
         });
