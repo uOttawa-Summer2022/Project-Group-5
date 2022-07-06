@@ -255,9 +255,9 @@ public class DBHelper_course extends SQLiteOpenHelper {
                 }
                 else{
                     if(newSessionList.equals("")){
-                        newSessionList+= session.toString();;
+                        newSessionList+= session;
                     }else {
-                        newSessionList += "," + session.toString();;
+                        newSessionList += "," + session;
                     }
                 }
             }
