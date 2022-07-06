@@ -22,6 +22,7 @@ public class MainActivity extends AppCompatActivity {
     Button login;
     TextView signup;
     static UserModel currentUser = new UserModel();
+    static CourseModel currentCourse = new CourseModel();
 
 
     @Override
