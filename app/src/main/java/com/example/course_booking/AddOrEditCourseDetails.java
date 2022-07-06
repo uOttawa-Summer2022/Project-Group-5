@@ -119,17 +119,16 @@ public class AddOrEditCourseDetails extends AppCompatActivity {
                 } else if (!(crsEndHour.matches("[0-9]+")) && (Integer.parseInt(crsEndHour) >= 0) && (Integer.parseInt(crsEndHour) < 24)) {
                     Toast.makeText(AddOrEditCourseDetails.this, "Please enter an Integer 0-23", Toast.LENGTH_SHORT).show();
                 } else if (!(crsStartMinute.matches("[0-9]+")) && (Integer.parseInt(crsStartMinute) >= 0) && (Integer.parseInt(crsStartMinute) < 60)) {
-                    Toast.makeText(AddOrEditCourseDetails.this, "Please enter an Integer 0-59", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddOrEditCourseDetails.this, "Please enter 00-59", Toast.LENGTH_SHORT).show();
                 } else if (!(crsEndMinute.matches("[0-9]+")) && (Integer.parseInt(crsEndMinute) >= 0) && (Integer.parseInt(crsEndMinute) < 60)){
-                    Toast.makeText(AddOrEditCourseDetails.this, "Please enter an Integer 0-59", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AddOrEditCourseDetails.this, "Please enter 00-59", Toast.LENGTH_SHORT).show();
+                } else if(Integer.parseInt(crsStartHour)>Integer.parseInt(crsEndHour)) {
+                    Toast.makeText(AddOrEditCourseDetails.this, "Please make sure that the start time isn't after the end time", Toast.LENGTH_SHORT).show();
+                }else if(Integer.parseInt(crsStartHour)==Integer.parseInt(crsEndHour) && Integer.parseInt(crsStartMinute)>Integer.parseInt(crsEndMinute)){
+                    Toast.makeText(AddOrEditCourseDetails.this, "Please make sure that the start time isn't after the end time", Toast.LENGTH_SHORT).show();
                 } else{
                     Session session = new Session(stringToDay(day),Integer.parseInt(crsStartHour),Integer.parseInt(crsStartMinute),Integer.parseInt(crsEndHour),Integer.parseInt(crsEndMinute));
                     boolean addSession =  db_course.addCrsSession(MainActivity.currentCourse.getCrsCode(),session);
-                    //need to checkCrsSession
-
-
-
-
 
                     if(addSession){
                         Toast.makeText(AddOrEditCourseDetails.this,"Session added successfully!", Toast.LENGTH_SHORT).show();
@@ -149,13 +148,33 @@ public class AddOrEditCourseDetails extends AppCompatActivity {
                 String crsEndHour = endHour.getText().toString();
                 String crsEndMinute = endMinute.getText().toString();
 
-                Session session = new Session(stringToDay(day),Integer.parseInt(crsStartHour),Integer.parseInt(crsStartMinute),Integer.parseInt(crsEndHour),Integer.parseInt(crsEndMinute));
-                //check whether session is in sessionList
+                if (day.isEmpty() || crsStartHour.isEmpty() || crsStartMinute.isEmpty() || crsEndHour.isEmpty() || crsEndMinute.isEmpty()) {
+                    Toast.makeText(AddOrEditCourseDetails.this, "Please fill all fields! ", Toast.LENGTH_SHORT).show();
 
+                } else if (!day.equals("Monday") || !day.equals("Tuesday") || !day.equals("Wednesday") || !day.equals("Thursday") || !day.equals("Friday")) {
+                    Toast.makeText(AddOrEditCourseDetails.this, "Please enter a valid day! ", Toast.LENGTH_SHORT).show();
+                } else if (!(crsStartHour.matches("[0-9]+") && (Integer.parseInt(crsStartHour) >= 0) && (Integer.parseInt(crsStartHour) < 24))) {
+                    Toast.makeText(AddOrEditCourseDetails.this, "Please enter an Integer 0-23", Toast.LENGTH_SHORT).show();
+                } else if (!(crsEndHour.matches("[0-9]+")) && (Integer.parseInt(crsEndHour) >= 0) && (Integer.parseInt(crsEndHour) < 24)) {
+                    Toast.makeText(AddOrEditCourseDetails.this, "Please enter an Integer 0-23", Toast.LENGTH_SHORT).show();
+                } else if (!(crsStartMinute.matches("[0-9]+")) && (Integer.parseInt(crsStartMinute) >= 0) && (Integer.parseInt(crsStartMinute) < 60)) {
+                    Toast.makeText(AddOrEditCourseDetails.this, "Please enter 00-59", Toast.LENGTH_SHORT).show();
+                } else if (!(crsEndMinute.matches("[0-9]+")) && (Integer.parseInt(crsEndMinute) >= 0) && (Integer.parseInt(crsEndMinute) < 60)){
+                    Toast.makeText(AddOrEditCourseDetails.this, "Please enter 00-59", Toast.LENGTH_SHORT).show();
+                } else if(Integer.parseInt(crsStartHour)>Integer.parseInt(crsEndHour)) {
+                    Toast.makeText(AddOrEditCourseDetails.this, "Please make sure that the start time isn't after the end time", Toast.LENGTH_SHORT).show();
+                }else if(Integer.parseInt(crsStartHour)==Integer.parseInt(crsEndHour) && Integer.parseInt(crsStartMinute)>Integer.parseInt(crsEndMinute)){
+                    Toast.makeText(AddOrEditCourseDetails.this, "Please make sure that the start time isn't after the end time", Toast.LENGTH_SHORT).show();
+                }else{
+                    Session session = new Session(stringToDay(day),Integer.parseInt(crsStartHour),Integer.parseInt(crsStartMinute),Integer.parseInt(crsEndHour),Integer.parseInt(crsEndMinute));
 
-
-
-                db_course.deleteCrsSession(MainActivity.currentCourse.getCrsCode(),session);
+                    boolean delete = db_course.deleteCrsSession(MainActivity.currentCourse.getCrsCode(),session);
+                    if(delete){
+                        Toast.makeText(AddOrEditCourseDetails.this,"Session deleted successfully!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(AddOrEditCourseDetails.this,"Session deleted failed!(It doesn't exist)", Toast.LENGTH_SHORT).show();
+                    }
+                }
 
             }
         });
