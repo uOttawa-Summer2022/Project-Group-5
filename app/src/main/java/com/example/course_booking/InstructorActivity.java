@@ -109,6 +109,7 @@ public class InstructorActivity extends AppCompatActivity{
                 } else {
                     if(db_course.editCrsInstructor(code, MainActivity.currentUser.getName(), false)){
                         Toast.makeText(InstructorActivity.this, "Course assignment succesful",Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(getApplicationContext(), AddOrEditCourseDetails.class));
                     } else{
                         Toast.makeText(InstructorActivity.this, "Course assignment failed",Toast.LENGTH_SHORT).show();
 

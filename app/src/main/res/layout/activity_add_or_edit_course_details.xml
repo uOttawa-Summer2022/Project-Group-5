@@ -8,15 +8,13 @@
 
     <LinearLayout
         android:id="@+id/linearLayout3"
-        android:layout_width="408dp"
-        android:layout_height="748dp"
-        android:layout_marginStart="2dp"
-        android:layout_marginTop="1dp"
-        android:layout_marginEnd="1dp"
-        android:layout_marginBottom="1dp"
+        android:layout_width="381dp"
+        android:layout_height="757dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout2"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
@@ -27,14 +25,8 @@
             android:text="@string/addOrEdit"
             android:textSize="20sp" />
 
-        <TextView
-            android:id="@+id/textView8"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/unAssign" />
-
         <EditText
-            android:id="@+id/editTextTextPersonName3"
+            android:id="@+id/crsDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
@@ -43,45 +35,94 @@
             android:minHeight="48dp" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName4"
+            android:id="@+id/crsCapacity"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="Enter course student capacity (e.g. 4)"
             android:inputType="textPersonName"
-            android:minHeight="48dp"
-            android:hint="Enter course student capacity"/>
+            android:minHeight="48dp" />
 
-        <TextView
-            android:id="@+id/textView9"
+        <Button
+            android:id="@+id/btn_addDesAndCap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/addDescriptionAndCapacity" />
+
+        <Button
+            android:id="@+id/btn_editDesAndCap"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/editDescriptionAndCapacity" />
+
+        <EditText
+            android:id="@+id/crsDay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="It still needs to design crs day and crs hours" />
+            android:ems="10"
+            android:hint="Enter course day (e.g. Monday)"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
 
-    </LinearLayout>
+        <EditText
+            android:id="@+id/startHour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Enter startHour (0-23)"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="409dp"
-        android:layout_height="95dp"
-        android:layout_marginStart="1dp"
-        android:layout_marginTop="1dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+        <EditText
+            android:id="@+id/startMinute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Enter startMinute (00-59)"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/endHour"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Enter endHour (0-23)"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
+
+        <EditText
+            android:id="@+id/endMinute"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Enter endMinute (00-59)"
+            android:inputType="textPersonName"
+            android:minHeight="48dp" />
 
         <Button
-            android:id="@+id/button6"
+            android:id="@+id/btn_addSession"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/add" />
+            android:text="@string/addSession" />
 
         <Button
-            android:id="@+id/button5"
+            android:id="@+id/btn_deleteSession"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/edit_details" />
+            android:text="@string/deleteSession" />
+
+        <TextView
+            android:id="@+id/tv_unAssign"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Click here if you want un-assign" />
+
+        <TextView
+            android:id="@+id/tv_backToInstructorActivity"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Click here to go back to InstructorActivity page" />
 
     </LinearLayout>
 
