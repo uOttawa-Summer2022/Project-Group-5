@@ -120,7 +120,6 @@ public class InstructorActivity extends AppCompatActivity{
         btnModifyAssign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Log.d("currentCoursebefore", MainActivity.currentCourse.getCrsCode());
                 if(crsCode.getText().toString().equals("")){
                     Toast.makeText(InstructorActivity.this, "Specify the crsCode", Toast.LENGTH_SHORT).show();
                     return;
