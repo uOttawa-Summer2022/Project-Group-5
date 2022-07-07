@@ -27,5 +27,9 @@
     <string name="edit_details">EDIT</string>
     <string name="unAssign">Click here if you want to un-assign</string>
     <string name="modify_assigned_course">MODIFY ASSIGNED COURSE</string>
+    <string name="addDescriptionAndCapacity">ADD DESCRIPTION AND CAPACITY</string>
+    <string name="editDescriptionAndCapacity">EDIT DESCRIPTION AND CAPACITY</string>
+    <string name="addSession">ADD SESSION</string>
+    <string name="deleteSession">DELETE SESSION</string>
 
 </resources>
