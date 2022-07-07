@@ -112,7 +112,7 @@ public class AddOrEditCourseDetails extends AppCompatActivity {
                 if (day.isEmpty() || crsStartHour.isEmpty() || crsStartMinute.isEmpty() || crsEndHour.isEmpty() || crsEndMinute.isEmpty()) {
                     Toast.makeText(AddOrEditCourseDetails.this, "Please fill all fields! ", Toast.LENGTH_SHORT).show();
 
-                } else if (!day.equals("Monday") || !day.equals("Tuesday") || !day.equals("Wednesday") || !day.equals("Thursday") || !day.equals("Friday")) {
+                } else if (!day.equals("Monday") && !day.equals("Tuesday") && !day.equals("Wednesday") && !day.equals("Thursday") && !day.equals("Friday")) {
                     Toast.makeText(AddOrEditCourseDetails.this, "Please enter a valid day! ", Toast.LENGTH_SHORT).show();
                 } else if (!(crsStartHour.matches("[0-9]+") && (Integer.parseInt(crsStartHour) >= 0) && (Integer.parseInt(crsStartHour) < 24))) {
                     Toast.makeText(AddOrEditCourseDetails.this, "Please enter an Integer 0-23", Toast.LENGTH_SHORT).show();
