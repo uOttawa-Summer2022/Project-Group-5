@@ -110,7 +110,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from courses where crsCode = ?",new String[]{code});
         if(cursor.moveToFirst()){
-            retrievedCourse = new CourseModel(code, cursor.getString(1));
+            retrievedCourse = new CourseModel(cursor.getString(1), code);
             if(!cursor.isNull(2)){
                 retrievedCourse.setCrsDescription(cursor.getString(2));
             }
@@ -225,6 +225,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
         String sessionListSTR;
         ContentValues contentValues = new ContentValues();
         if(cursor.moveToFirst()){
+            Log.d("Testing...begin", "course wa found");
             if(cursor.isNull(5)){
                 contentValues.put("crsSessionList", newSession.toString());
             } else{
@@ -299,8 +300,10 @@ public class DBHelper_course extends SQLiteOpenHelper {
             contentValues.putNull("crsCapacity");
             contentValues.putNull("crsDescription");
             contentValues.putNull("crsSessionList");
+            Log.d("crsInstructor", "instructor deleted");
         } else {
             contentValues.put("crsInstructor", crsInstructor);
+            Log.d("crsInstructor", "instructor added");
         }
         db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
         return true;

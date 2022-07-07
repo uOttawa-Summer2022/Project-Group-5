@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -129,6 +130,7 @@ public class AddOrEditCourseDetails extends AppCompatActivity {
                 } else{
                     Session session = new Session(stringToDay(day),Integer.parseInt(crsStartHour),Integer.parseInt(crsStartMinute),Integer.parseInt(crsEndHour),Integer.parseInt(crsEndMinute));
                     boolean addSession =  db_course.addCrsSession(MainActivity.currentCourse.getCrsCode(),session);
+                    Log.d("CrsCode", MainActivity.currentCourse.getCrsCode());
 
                     if(addSession){
                         Toast.makeText(AddOrEditCourseDetails.this,"Session added successfully!", Toast.LENGTH_SHORT).show();
@@ -184,7 +186,9 @@ public class AddOrEditCourseDetails extends AppCompatActivity {
             public void onClick(View v) {
                 //Instructor, Capacity,Description,Session-->null
                 db_course.editCrsInstructor(MainActivity.currentCourse.getCrsCode(),null,true);
-
+                Toast.makeText(AddOrEditCourseDetails.this,"Instructor unassigned", Toast.LENGTH_SHORT).show();
+                MainActivity.currentCourse = null;
+                startActivity(new Intent(getApplicationContext(),InstructorActivity.class));
             }
         });
 

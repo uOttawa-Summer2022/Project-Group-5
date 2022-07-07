@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class InstructorActivity extends AppCompatActivity{
     EditText crsCode,crsName;
@@ -107,6 +108,7 @@ public class InstructorActivity extends AppCompatActivity{
                 } else {
                     if(db_course.editCrsInstructor(code, MainActivity.currentUser.getName(), false)){
                         Toast.makeText(InstructorActivity.this, "Course assignment succesful",Toast.LENGTH_SHORT).show();
+                        MainActivity.currentCourse = db_course.getCourse(code);
                         startActivity(new Intent(getApplicationContext(), AddOrEditCourseDetails.class));
                     } else{
                         Toast.makeText(InstructorActivity.this, "Course assignment failed",Toast.LENGTH_SHORT).show();
@@ -118,6 +120,7 @@ public class InstructorActivity extends AppCompatActivity{
         btnModifyAssign.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Log.d("currentCoursebefore", MainActivity.currentCourse.getCrsCode());
                 if(crsCode.getText().toString().equals("")){
                     Toast.makeText(InstructorActivity.this, "Specify the crsCode", Toast.LENGTH_SHORT).show();
                     return;
@@ -127,8 +130,14 @@ public class InstructorActivity extends AppCompatActivity{
                     Toast.makeText(InstructorActivity.this, "Course does not exist",Toast.LENGTH_SHORT).show();
                     return;
                 }
-
                 MainActivity.currentCourse = db_course.getCourse(code);
+                if(!MainActivity.currentCourse.getcrsInstructor().equals(MainActivity.currentUser.getName())){
+                    Toast.makeText(InstructorActivity.this, "You are not the instructor of this course",Toast.LENGTH_SHORT).show();
+                    MainActivity.currentCourse = null;
+                    return;
+                }
+                Log.d("currentCourse", MainActivity.currentCourse.toString());
+                Log.d("test", "just making sure");
                 startActivity(new Intent(getApplicationContext(), AddOrEditCourseDetails.class));
 
             }
