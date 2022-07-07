@@ -110,7 +110,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from courses where crsCode = ?",new String[]{code});
         if(cursor.moveToFirst()){
-            retrievedCourse = new CourseModel(cursor.getString(1), code);
+            retrievedCourse = new CourseModel(code, cursor.getString(1));
             if(!cursor.isNull(2)){
                 retrievedCourse.setCrsDescription(cursor.getString(2));
             }
@@ -224,26 +224,18 @@ public class DBHelper_course extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("Select * from courses where crsCode = ?",new String[]{crsCode});
         String sessionListSTR;
         ContentValues contentValues = new ContentValues();
-        if(cursor.moveToFirst()){
-            Log.d("Testing...begin", "course wa found");
-            if(cursor.isNull(5)){
-                contentValues.put("crsSessionList", newSession.toString());
-            } else{
-                sessionListSTR= cursor.getString(5);
-                ArrayList<Session> sessionList = stringtoSessionList(sessionListSTR);
-                if(checkCrsSession(sessionList, newSession)){
-                    sessionListSTR += ";"+newSession.toString();
-                    contentValues.put("crsSessionList", sessionListSTR);
-                }else{
-                    Log.d("Testing...", "adding Session fails here");
-                    return false;
-                }
-            }
-            db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
-            return true;
+        if(cursor.isNull(5)){
+            contentValues.put("crsSessionList", newSession.toString());
+        } else{
+            sessionListSTR= cursor.getString(5);
+            ArrayList<Session> sessionList = stringtoSessionList(sessionListSTR);
+            if(checkCrsSession(sessionList, newSession)){
+                sessionListSTR += ";"+newSession.toString();
+                contentValues.put("crsSessionList", sessionListSTR);
+            }else{return false;}
         }
-        Log.d("Testing...2", "adding Session fails at the end");
-        return false;
+        db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
+        return true;
     }
     public boolean deleteCrsSession(String crsCode, Session targetSession){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -253,26 +245,24 @@ public class DBHelper_course extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         boolean sessionExists = false;
         String newSessionList = "";
-        if(cursor.moveToFirst()){
-            if(cursor.isNull(5)){
+        if(cursor.isNull(5)){
+            return false;
+        } else{
+            String[] sessionList = cursor.getString(5).split(",");
+            for(String session: sessionList){
+                if(session.equals(targetSession.toString())){
+                    sessionExists = true;
+                }
+                else{
+                    if(newSessionList.equals("")){
+                        newSessionList+= session.toString();;
+                    }else {
+                        newSessionList += "," + session.toString();;
+                    }
+                }
+            }
+            if(!sessionExists){
                 return false;
-            } else{
-                String[] sessionList = cursor.getString(5).split(",");
-                for(String session: sessionList){
-                    if(session.equals(targetSession.toString())){
-                        sessionExists = true;
-                    }
-                    else{
-                        if(newSessionList.equals("")){
-                            newSessionList+= session.toString();;
-                        }else {
-                            newSessionList += "," + session.toString();;
-                        }
-                    }
-                }
-                if(!sessionExists){
-                    return false;
-                }
             }
         }
         if(newSessionList.equals("")){
@@ -300,10 +290,8 @@ public class DBHelper_course extends SQLiteOpenHelper {
             contentValues.putNull("crsCapacity");
             contentValues.putNull("crsDescription");
             contentValues.putNull("crsSessionList");
-            Log.d("crsInstructor", "instructor deleted");
         } else {
             contentValues.put("crsInstructor", crsInstructor);
-            Log.d("crsInstructor", "instructor added");
         }
         db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
         return true;
