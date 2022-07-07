@@ -40,11 +40,11 @@ public class CourseModel {
         this.crsName = crsName;
     }
 
-    public String getcrsInstructor() {
+    public String getCrsInstructor() {
         return crsInstructor;
     }
 
-    public void setcrsInstructor(String name) {
+    public void setCrsInstructor(String name) {
         this.crsInstructor = name;
     }
 
@@ -64,9 +64,9 @@ public class CourseModel {
         this.crsDescription = crsDescription;
     }
 
-    public int getcrsCapacity() {return crsCapacity;}
+    public int getCrsCapacity() {return crsCapacity;}
 
-    public void setcrsCapacity(int capacity) {
+    public void setCrsCapacity(int capacity) {
         this.crsCapacity = capacity;
     }
 

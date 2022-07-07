@@ -130,7 +130,7 @@ public class InstructorActivity extends AppCompatActivity{
                     return;
                 }
                 MainActivity.currentCourse = db_course.getCourse(code);
-                if(!MainActivity.currentCourse.getcrsInstructor().equals(MainActivity.currentUser.getName())){
+                if(!MainActivity.currentCourse.getCrsInstructor().equals(MainActivity.currentUser.getName())){
                     Toast.makeText(InstructorActivity.this, "You are not the instructor of this course",Toast.LENGTH_SHORT).show();
                     MainActivity.currentCourse = null;
                     return;

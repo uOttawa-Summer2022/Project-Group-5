@@ -66,7 +66,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
         return cursor.getCount() > 0;
     }
 
-    public ArrayList<Session> stringtoSessionList(String sessionListSTR){
+    public ArrayList<Session> stringToSessionList(String sessionListSTR){
         ArrayList<Session> fullSessionList = new ArrayList<>();
         String[] singleSess = sessionListSTR.split(",");
         String[] separateSessParts;
@@ -116,15 +116,15 @@ public class DBHelper_course extends SQLiteOpenHelper {
             }
 
             if(!cursor.isNull(3)){
-                retrievedCourse.setcrsCapacity(cursor.getInt(3));
+                retrievedCourse.setCrsCapacity(cursor.getInt(3));
             }
 
             if(!cursor.isNull(4)){
-                retrievedCourse.setcrsInstructor(cursor.getString(4));
+                retrievedCourse.setCrsInstructor(cursor.getString(4));
             }
 
             if(!cursor.isNull(5)){
-                retrievedCourse.setCrsSessionList(stringtoSessionList(cursor.getString(5)));
+                retrievedCourse.setCrsSessionList(stringToSessionList(cursor.getString(5)));
             }
 
             return retrievedCourse;
@@ -228,7 +228,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
             contentValues.put("crsSessionList", newSession.toString());
         } else{
             sessionListSTR= cursor.getString(5);
-            ArrayList<Session> sessionList = stringtoSessionList(sessionListSTR);
+            ArrayList<Session> sessionList = stringToSessionList(sessionListSTR);
             if(checkCrsSession(sessionList, newSession)){
                 sessionListSTR += ";"+newSession.toString();
                 contentValues.put("crsSessionList", sessionListSTR);
