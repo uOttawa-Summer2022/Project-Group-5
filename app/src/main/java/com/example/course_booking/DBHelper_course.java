@@ -224,18 +224,25 @@ public class DBHelper_course extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("Select * from courses where crsCode = ?",new String[]{crsCode});
         String sessionListSTR;
         ContentValues contentValues = new ContentValues();
-        if(cursor.isNull(5)){
-            contentValues.put("crsSessionList", newSession.toString());
-        } else{
-            sessionListSTR= cursor.getString(5);
-            ArrayList<Session> sessionList = stringtoSessionList(sessionListSTR);
-            if(checkCrsSession(sessionList, newSession)){
-                sessionListSTR += ";"+newSession.toString();
-                contentValues.put("crsSessionList", sessionListSTR);
-            }else{return false;}
+        if(cursor.moveToFirst()){
+            if(cursor.isNull(5)){
+                contentValues.put("crsSessionList", newSession.toString());
+            } else{
+                sessionListSTR= cursor.getString(5);
+                ArrayList<Session> sessionList = stringtoSessionList(sessionListSTR);
+                if(checkCrsSession(sessionList, newSession)){
+                    sessionListSTR += ";"+newSession.toString();
+                    contentValues.put("crsSessionList", sessionListSTR);
+                }else{
+                    Log.d("Testing...", "adding Session fails here");
+                    return false;
+                }
+            }
+            db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
+            return true;
         }
-        db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
-        return true;
+        Log.d("Testing...2", "adding Session fails at the end");
+        return false;
     }
     public boolean deleteCrsSession(String crsCode, Session targetSession){
         SQLiteDatabase db = this.getWritableDatabase();
@@ -245,24 +252,26 @@ public class DBHelper_course extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         boolean sessionExists = false;
         String newSessionList = "";
-        if(cursor.isNull(5)){
-            return false;
-        } else{
-            String[] sessionList = cursor.getString(5).split(",");
-            for(String session: sessionList){
-                if(session.equals(targetSession.toString())){
-                    sessionExists = true;
-                }
-                else{
-                    if(newSessionList.equals("")){
-                        newSessionList+= session.toString();;
-                    }else {
-                        newSessionList += "," + session.toString();;
+        if(cursor.moveToFirst()){
+            if(cursor.isNull(5)){
+                return false;
+            } else{
+                String[] sessionList = cursor.getString(5).split(",");
+                for(String session: sessionList){
+                    if(session.equals(targetSession.toString())){
+                        sessionExists = true;
+                    }
+                    else{
+                        if(newSessionList.equals("")){
+                            newSessionList+= session.toString();;
+                        }else {
+                            newSessionList += "," + session.toString();;
+                        }
                     }
                 }
-            }
-            if(!sessionExists){
-                return false;
+                if(!sessionExists){
+                    return false;
+                }
             }
         }
         if(newSessionList.equals("")){

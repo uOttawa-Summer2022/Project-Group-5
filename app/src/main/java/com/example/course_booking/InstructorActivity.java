@@ -58,8 +58,6 @@ public class InstructorActivity extends AppCompatActivity{
         db = new DBHelper(this);
         UserModel user = MainActivity.currentUser;
         String msg = "Welcome " +user.getName()+"! You are logged in as instructor.";
-        Log.d("MSG", msg);
-        Log.d("name", user.getName());
         welcomeInstructor.setText(msg);
 
 
