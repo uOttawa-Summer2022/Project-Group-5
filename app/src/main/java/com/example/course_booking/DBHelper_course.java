@@ -150,8 +150,16 @@ public class DBHelper_course extends SQLiteOpenHelper {
 
             if(oldSession.getDay().equals(newSession.getDay())){
 
-                if(oldSession.getStartHour() == newSession.getStartHour()){return false;}
-                if(oldSession.getEndHour() == newSession.getEndHour()){return false;}
+                if(oldSession.getStartHour() == newSession.getStartHour()) {
+                    if (oldSession.getStartMinute() <= newSession.getEndMinute() || oldSession.getEndMinute() >= newSession.getStartMinute()) {
+                        return false;
+                    }
+                }
+                if(oldSession.getEndHour() == newSession.getEndHour()){
+                    if (oldSession.getStartMinute() <= newSession.getEndMinute() || oldSession.getEndMinute() >= newSession.getStartMinute()) {
+                        return false;
+                    }
+                }
                 if(oldSession.getStartHour() == newSession.getEndHour()){
                     if(oldSession.getStartMinute() <= newSession.getEndMinute()){return false;}
                 }
@@ -245,34 +253,38 @@ public class DBHelper_course extends SQLiteOpenHelper {
         ContentValues contentValues = new ContentValues();
         boolean sessionExists = false;
         String newSessionList = "";
-        if(cursor.isNull(5)){
-            return false;
-        } else{
-            String[] sessionList = cursor.getString(5).split(",");
-            for(String session: sessionList){
-                if(session.equals(targetSession.toString())){
-                    sessionExists = true;
-                }
-                else{
-                    if(newSessionList.equals("")){
-                        newSessionList+= session.toString();;
-                    }else {
-                        newSessionList += "," + session.toString();;
+        if(cursor.moveToFirst()){
+            if(cursor.isNull(5)){
+                return false;
+            } else{
+                String[] sessionList = cursor.getString(5).split(",");
+                for(String session: sessionList){
+                    if(session.equals(targetSession.toString())){
+                        sessionExists = true;
+                    }
+                    else{
+                        if(newSessionList.equals("")){
+                            newSessionList+= session.toString();;
+                        }else {
+                            newSessionList += "," + session.toString();;
+                        }
                     }
                 }
+                if(!sessionExists){
+                    return false;
+                }
             }
-            if(!sessionExists){
-                return false;
+            if(newSessionList.equals("")){
+                contentValues.putNull("crsSessionList");
+            }else{
+                contentValues.put("crsSessionList", newSessionList);
             }
+            db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
+            return true;
         }
-        if(newSessionList.equals("")){
-            contentValues.putNull("crsSessionList");
-        }else{
-            contentValues.put("crsSessionList", newSessionList);
-        }
-        db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
-        return true;
+        return false;
     }
+
 
     public boolean editCrsSession(String crsCode, Session oldSession, Session newSession){
         if(deleteCrsSession(crsCode, oldSession)){
