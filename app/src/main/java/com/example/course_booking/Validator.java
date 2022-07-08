@@ -1,5 +1,6 @@
 package com.example.course_booking;
 
+
 public class Validator {
 
     String usernameR = "[A-Za-z]+";
@@ -9,13 +10,11 @@ public class Validator {
     public Validator() {}
 
     public boolean validUsername(String username) {
-        if (username.matches(usernameR)) { return true; }
-        else { return false; }
+        return username.matches(usernameR);
     }
 
     public boolean validCrsCode(String crsCode) {
-        if (crsCode.matches(crsCodeR)) { return true; }
-        else { return false; }
+        return crsCode.matches(crsCodeR);
     }
 
     public boolean validSession(int startHour , int startMin, int endHour, int endMin){
@@ -26,9 +25,7 @@ public class Validator {
 
         if(endHour < 0 || endHour > 23){return false;}
 
-        if(endMin < 0 || endMin > 59){return false;}
-
-        else { return true; }
+        return endMin >= 0 && endMin <= 59;
     }
 
 }
