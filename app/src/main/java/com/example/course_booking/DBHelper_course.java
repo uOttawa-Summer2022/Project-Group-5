@@ -110,7 +110,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from courses where crsCode = ?",new String[]{code});
         if(cursor.moveToFirst()){
-            retrievedCourse = new CourseModel(code, cursor.getString(1));
+            retrievedCourse = new CourseModel(cursor.getString(1), code);
             if(!cursor.isNull(2)){
                 retrievedCourse.setCrsDescription(cursor.getString(2));
             }
@@ -232,18 +232,24 @@ public class DBHelper_course extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery("Select * from courses where crsCode = ?",new String[]{crsCode});
         String sessionListSTR;
         ContentValues contentValues = new ContentValues();
-        if(cursor.isNull(5)){
-            contentValues.put("crsSessionList", newSession.toString());
-        } else{
-            sessionListSTR= cursor.getString(5);
-            ArrayList<Session> sessionList = stringToSessionList(sessionListSTR);
-            if(checkCrsSession(sessionList, newSession)){
-                sessionListSTR += ";"+newSession.toString();
-                contentValues.put("crsSessionList", sessionListSTR);
-            }else{return false;}
+        if(cursor.moveToFirst()) {
+
+            if (cursor.isNull(5)) {
+                contentValues.put("crsSessionList", newSession.toString());
+            } else {
+                sessionListSTR = cursor.getString(5);
+                ArrayList<Session> sessionList = stringToSessionList(sessionListSTR);
+                if (checkCrsSession(sessionList, newSession)) {
+                    sessionListSTR += "," + newSession.toString();
+                    contentValues.put("crsSessionList", sessionListSTR);
+                } else {
+                    return false;
+                }
+            }
+            db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
+            return true;
         }
-        db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
-        return true;
+        return false;
     }
     public boolean deleteCrsSession(String crsCode, Session targetSession){
         SQLiteDatabase db = this.getWritableDatabase();
