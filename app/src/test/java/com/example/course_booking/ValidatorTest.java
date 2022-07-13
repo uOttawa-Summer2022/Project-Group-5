@@ -43,11 +43,14 @@ public class ValidatorTest {
     }
 
     @Test
-    public void validSessionCheck() {
-        int startMin = 30, startHour = 8, endMin = 45, endHour = 10;
+    public void validSessionCheck_true() {
+        int startHour = 8, startMin = 30, endHour = 10, endMin = 45;
         assertTrue(validator.validSession(startHour,startMin, endHour, endMin));
-        startMin = 300;
-        startHour = 1000;
+    }
+
+    @Test
+    public void validSessionCheck_false() {
+        int startHour = 1000, startMin = 300, endHour = 10, endMin = 45;
         assertFalse(validator.validSession(startHour,startMin, endHour, endMin));
     }
 }
