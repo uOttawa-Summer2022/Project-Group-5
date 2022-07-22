@@ -41,12 +41,13 @@
             android:minHeight="48dp" />
 
         <EditText
-            android:id="@+id/editTextTextPersonName"
+            android:id="@+id/et_day"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
+            android:hint="Enter a Day (eg. Friday)"
             android:inputType="textPersonName"
-            android:text="Name" />
+            android:minHeight="48dp"/>
 
         <Button
             android:id="@+id/btn_search2"
@@ -67,18 +68,18 @@
             android:layout_height="wrap_content">
 
             <Button
-                android:id="@+id/button"
+                android:id="@+id/btn_enroll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:text="@string/enroll" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/btn_unenroll"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Button"
-                android:layout_margin="5dp"/>
+                android:layout_margin="5dp"
+                android:text="@string/unenroll" />
 
         </TableRow>
 

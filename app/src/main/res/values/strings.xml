@@ -31,5 +31,6 @@
     <string name="editDescriptionAndCapacity">EDIT DESCRIPTION AND CAPACITY</string>
     <string name="addSession">ADD SESSION</string>
     <string name="deleteSession">DELETE SESSION</string>
-
+    <string name="enroll">Enroll</string>
+    <string name="unenroll">Unenroll</string>
 </resources>
