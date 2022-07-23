@@ -8,6 +8,7 @@ public class CourseModel {
     private String crsDescription;
     private int crsCapacity;
     private ArrayList<Session> crsSessionList;
+    private ArrayList<UserModel> studentsList;
     private String crsInstructor;
 
 
@@ -19,6 +20,7 @@ public class CourseModel {
         this.crsCapacity = 0;
         this.crsInstructor = "";
         this.crsSessionList = new ArrayList<Session>();
+        this.studentsList = new ArrayList<UserModel>();
     }
 
     public CourseModel() {
@@ -28,6 +30,7 @@ public class CourseModel {
         this.crsCapacity = 0;
         this.crsInstructor = "";
         this.crsSessionList = new ArrayList<Session>();
+        this.studentsList = new ArrayList<UserModel>();
     }
 
 
@@ -72,6 +75,14 @@ public class CourseModel {
 
     public void setCrsSessionList(ArrayList<Session> crsSessionList) {
         this.crsSessionList = crsSessionList;
+    }
+
+    public void setStudentsList(ArrayList<UserModel> studentsList) {
+        this.studentsList = studentsList;
+    }
+
+    public ArrayList<UserModel> getStudentsList() {
+        return studentsList;
     }
 
     public ArrayList<Session> getcrsSessionList() {return crsSessionList;}

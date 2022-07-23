@@ -23,6 +23,7 @@ public class DBHelper_course extends SQLiteOpenHelper {
     private static final String COLUMN_CAPACITY = "crsCapacity";
     private static final String COLUMN_INSTRUCTOR = "crsInstructor";
     private static final String COLUMN_SESSION_LIST = "crsSessionList";
+    private static final String COLUMN_STUDENTS_LIST = "studentsList";
     public DBHelper_course(Context context){
         super(context, DBNAME,null,1);
     }
@@ -35,7 +36,8 @@ public class DBHelper_course extends SQLiteOpenHelper {
                     COLUMN_DESCRIPTION + " TEXT," +
                     COLUMN_CAPACITY + " INT," +
                     COLUMN_INSTRUCTOR + " TEXT," +
-                    COLUMN_SESSION_LIST + " TEXT" +")";
+                    COLUMN_SESSION_LIST + " TEXT," +
+                    COLUMN_STUDENTS_LIST + " TEXT" + ")";
             MyDB.execSQL(create_table_cmd);
 
         ContentValues values = new ContentValues();
@@ -140,6 +142,12 @@ public class DBHelper_course extends SQLiteOpenHelper {
     }
 
     public boolean checkCrsSessionList(String code){
+        SQLiteDatabase MyDB = this.getWritableDatabase();
+        Cursor cursor = MyDB.rawQuery("Select * from courses where crsCapacity > 0 and crsCode = ?",new String[]{code});
+        return cursor.getCount() > 0;
+    }
+
+    public boolean checkCrsCapacity(String code) {
         SQLiteDatabase MyDB = this.getWritableDatabase();
         Cursor cursor = MyDB.rawQuery("Select * from courses where crsSessionList is not null and crsCode = ?",new String[]{code});
         return cursor.getCount() > 0;
@@ -367,6 +375,29 @@ public class DBHelper_course extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         String query = " SELECT * FROM " + TABLE_NAME2 + " WHERE " + COLUMN_NAME +
                 " LIKE "+ "'" +crsName+ "%'" + " AND " + COLUMN_CODE + " LIKE "+ "'" +crsCode+ "%'";
+        Cursor cursor = db.rawQuery(query,null);
+        if (cursor.getCount()==0){
+            db.close();
+            cursor.close();
+            return courseList;
+        }
+        cursor.moveToFirst();
+        courseList.add(cursor.getString(0)+ " - "+ cursor.getString(1));
+        cursor.moveToNext();
+        while(!cursor.isAfterLast()) {
+            courseList.add(cursor.getString(0) + " - " +cursor.getString(1));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+        return courseList;
+    }
+
+    public ArrayList<String> searchCourse4(String day){
+        ArrayList<String> courseList = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = " SELECT * FROM " + TABLE_NAME2 + " WHERE " + COLUMN_SESSION_LIST +
+                " LIKE "+ "'" +day+ "%'";
         Cursor cursor = db.rawQuery(query,null);
         if (cursor.getCount()==0){
             db.close();
