@@ -114,15 +114,14 @@ public class StudentActivity extends AppCompatActivity{
                 }
                 if(db_course.checkCrsCapacity(code)){
                     //Add in student
-                    Toast.makeText(StudentActivity.this, "This course has an instructor",Toast.LENGTH_SHORT).show();
+                    if(db_course.addStudent(code, MainActivity.currentUser.getName())){
+                        Toast.makeText(StudentActivity.this, "Course Registration successful",Toast.LENGTH_SHORT).show();
+                    } else{
+                        Toast.makeText(StudentActivity.this, "Course Registration Failed",Toast.LENGTH_SHORT).show();
+                    }
                 } else {
                     //Toast that course is full
-                    if(db_course.editCrsInstructor(code, MainActivity.currentUser.getName(), false)){
-                        Toast.makeText(StudentActivity.this, "Course assignment succesful",Toast.LENGTH_SHORT).show();
-                    } else{
-                        Toast.makeText(StudentActivity.this, "Course assignment failed",Toast.LENGTH_SHORT).show();
-
-                    }
+                    Toast.makeText(StudentActivity.this, "This course is full",Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -130,14 +129,30 @@ public class StudentActivity extends AppCompatActivity{
         btnUnenroll.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                if(crsCode.getText().toString().equals("")){
+                    Toast.makeText(StudentActivity.this, "Specify the crsCode", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                String code = crsCode.getText().toString();
+                if(!db_course.checkCourse(code)){
+                    Toast.makeText(StudentActivity.this, "Course does not exist",Toast.LENGTH_SHORT).show();
+                    return;
+                } else {
+                    if(db_course.deleteStudent(code, MainActivity.currentUser.getName())){
+                        Toast.makeText(StudentActivity.this, "Course Unenrollment successful",Toast.LENGTH_SHORT).show();
+                    } else{
+                        Toast.makeText(StudentActivity.this, "Course Unenrollment Failed",Toast.LENGTH_SHORT).show();
+                    }
+                }
             }
         });
 
         btnViewEnrolled.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                crsList.clear();
+                crsList = db_course.searchEnrolled(MainActivity.currentUser.getName());
+                viewCourses(crsList);
             }
         });
     }

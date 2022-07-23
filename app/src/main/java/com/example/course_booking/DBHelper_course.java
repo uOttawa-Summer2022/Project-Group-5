@@ -153,6 +153,35 @@ public class DBHelper_course extends SQLiteOpenHelper {
         return cursor.getCount() > 0;
     }
 
+    public boolean addStudent(String crsCode, String studentName){
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("Select * from courses where crsCode = ?",new String[]{crsCode});
+        String studentListSTR;
+        ContentValues contentValues = new ContentValues();
+        if(cursor.moveToFirst()) {
+            contentValues.put("studentsList", studentName.toString());
+            db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
+            return true;
+        }
+        return false;
+    }
+
+    public boolean deleteStudent(String crsCode, String studentName) {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("Select * from courses where crsCode = ?",new String[]{crsCode});
+        String studentListSTR;
+        ContentValues contentValues = new ContentValues();
+        if(cursor.moveToFirst()) {
+            contentValues.put("studentsList", "");
+            db.update(TABLE_NAME2, contentValues, "crsCode=?", new String[]{crsCode});
+            return true;
+        }
+        return false;
+    }
+
+
     public boolean checkCrsSession(ArrayList<Session> sessionList, Session newSession){
         for(Session oldSession:sessionList){
 
@@ -416,6 +445,28 @@ public class DBHelper_course extends SQLiteOpenHelper {
         return courseList;
     }
 
+    public ArrayList<String> searchEnrolled(String studentName){
+        ArrayList<String> courseList = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = " SELECT * FROM " + TABLE_NAME2 + " WHERE " + COLUMN_STUDENTS_LIST +
+                " LIKE "+ "'" +studentName+ "%'";
 
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.getCount() == 0) {
+            db.close();
+            return courseList;
+        }
+        cursor.moveToFirst();
+        courseList.add(cursor.getString(0) + " - " +cursor.getString(1));
+        cursor.moveToNext();
+        while (!cursor.isAfterLast()) {
+            courseList.add(cursor.getString(0) + " - " +cursor.getString(1));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+        return courseList;
+
+    }
 
 }
