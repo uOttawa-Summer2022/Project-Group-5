@@ -469,4 +469,28 @@ public class DBHelper_course extends SQLiteOpenHelper {
 
     }
 
+    public ArrayList<String> searchStudents(String instructorName){
+        ArrayList<String> courseList = new ArrayList<>();
+        SQLiteDatabase db = this.getWritableDatabase();
+        String query = " SELECT " + COLUMN_NAME + "," + COLUMN_STUDENTS_LIST + " FROM " + TABLE_NAME2 + " WHERE " + COLUMN_INSTRUCTOR +
+                "='"+ instructorName + "';";
+
+        Cursor cursor = db.rawQuery(query, null);
+        if (cursor.getCount() == 0) {
+            db.close();
+            return courseList;
+        }
+        cursor.moveToFirst();
+        courseList.add(cursor.getString(0) + " - " +cursor.getString(1));
+        cursor.moveToNext();
+        while (!cursor.isAfterLast()) {
+            courseList.add(cursor.getString(0) + " - " +cursor.getString(1));
+            cursor.moveToNext();
+        }
+        cursor.close();
+        db.close();
+        return courseList;
+
+    }
+
 }

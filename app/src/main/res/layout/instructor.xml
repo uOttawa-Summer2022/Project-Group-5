@@ -50,7 +50,7 @@
         <ListView
             android:id="@+id/productListView"
             android:layout_width="370dp"
-            android:layout_height="225dp"
+            android:layout_height="175dp"
             android:layout_marginTop="10dp" />
 
 
@@ -93,6 +93,18 @@
             android:layout_height="wrap_content"
             android:text="@string/logout"
             android:layout_margin="5dp"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <Button
+                android:id="@+id/btn_viewStudents"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:text="@string/viewStudents" />
         </TableRow>
 
     </LinearLayout>

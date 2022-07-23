@@ -34,4 +34,5 @@
     <string name="enroll">Enroll</string>
     <string name="unenroll">Unenroll</string>
     <string name="viewEnrolled">View Enrolled Courses</string>
+    <string name="viewStudents">View Enrolled Students</string>
 </resources>

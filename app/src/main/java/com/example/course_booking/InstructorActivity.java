@@ -23,7 +23,7 @@ public class InstructorActivity extends AppCompatActivity{
     TextView welcomeInstructor;
     DBHelper db;
     DBHelper_course db_course;
-    Button btnLogout,btnViewALL,btnSearch, btnAssign, btnCheckAssign,btnModifyAssign;
+    Button btnLogout,btnViewALL,btnSearch, btnAssign, btnCheckAssign,btnModifyAssign, btnViewStudents;
 
     ArrayList<String> crsList;
     ArrayAdapter adapter;
@@ -44,6 +44,7 @@ public class InstructorActivity extends AppCompatActivity{
         btnAssign = findViewById(R.id.btn_assign);
         btnCheckAssign = findViewById(R.id.btn_checkAssigned);
         btnModifyAssign = findViewById(R.id.btn_modify_assigned);
+        btnViewStudents = findViewById(R.id.btn_viewStudents);
 
         //list
         crsList= new ArrayList<>();
@@ -171,6 +172,14 @@ public class InstructorActivity extends AppCompatActivity{
         });
 
 
+        btnViewStudents.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                crsList.clear();
+                crsList = db_course.searchStudents(MainActivity.currentUser.getName());
+                viewCourses(crsList);
+            }
+        });
     }
     private void viewCourses(ArrayList<String> list) {
         adapter = new ArrayAdapter<>(InstructorActivity.this, android.R.layout.simple_list_item_1, list);
